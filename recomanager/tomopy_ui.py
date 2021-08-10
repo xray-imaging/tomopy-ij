@@ -16,15 +16,14 @@ from hdf.object.h5 import H5File
 
 global selectedDatasetField, flatFieldBox, world
 
-sys.path.append('C:/Users/benny/recomanager-ben/recomanager')
+sys.path.append('/Users/decarlo/conda/recomanager-decarlof/recomanager')
 #sys.path.append('/local/fast/conda/recomanager/recomanager')
 
-import RecoPanel
-import RecoParameters
-import Fields
-import SimpleFunctions
+import panel
+import fields
+import utils
 import SinogramCalculation
-import LogfileParameters
+import config
 
 def createContentPane():
 
@@ -41,7 +40,7 @@ def datasetSelector(event):
     datasetFileName=datasetChooser.getFileName()
     datasetGetDirectory=datasetChooser.getDirectory()
     dataLocation = str(datasetGetDirectory) + str(datasetFileName)
-    fields.selectedDatasetField.setText(dataLocation)
+    flds.selectedDatasetField.setText(dataLocation)
     recoParameters.FileLocation = dataLocation
 
     from ch.psi.imagej.hdf5 import HDF5Reader
@@ -52,7 +51,7 @@ def datasetSelector(event):
         print("User canceled the dialog!")
     else:
 
-        logfileParameters.setToDefaults()
+        logfileParameters.set()
         logfileParameters.dataset=datasetFileName
         logfileParameters.filepath = datasetGetDirectory
         
@@ -62,18 +61,18 @@ def reconstruct(event):
     print("I am reconstructing!")
     if event.getSource() == oneSliceButton:
         print("Preview one slice")
-        recoParameters.algorithm = fields.algoChooser.getSelectedIndex()
+        recoParameters.algorithm = flds.algoChooser.getSelectedIndex()
         
 
         if recoParameters.algorithm==0:
 
-            recoParameters.sliceNumber=fields.sliceField.getText()
-            recoParameters.centerNumber=fields.centerField.getText()
-            recoParameters.nsinoperchunk=fields.nsinochunkField.getText()
-            recoParameters.centerSearchWidth=fields.searchWidthField.getText()
-            recoParameters.gridrecPadding=fields.gridrecChooser.getSelectedIndex()
-            recoParameters.stripeMethod=fields.stripeMethodChooser.getSelectedIndex()
-            recoParameters.fwpad=fields.fwpadChooser.getSelectedIndex()
+            recoParameters.sliceNumber=flds.sliceField.getText()
+            recoParameters.centerNumber=flds.centerField.getText()
+            recoParameters.nsinoperchunk=flds.nsinochunkField.getText()
+            recoParameters.centerSearchWidth=flds.searchWidthField.getText()
+            recoParameters.gridrecPadding=flds.gridrecChooser.getSelectedIndex()
+            recoParameters.stripeMethod=flds.stripeMethodChooser.getSelectedIndex()
+            recoParameters.fwpad=flds.fwpadChooser.getSelectedIndex()
 
             if recoParameters.gridrecPadding == 0:
                 tempstring = "True"
@@ -97,8 +96,8 @@ def reconstruct(event):
                 fwstring = "False"
 
             slicenum = float(recoParameters.sliceNumber)/float(920)
-            reconfilelocation = fields.selectedDatasetField.getText()
-            recoParameters.FileLocation = fields.selectedDatasetField.getText()
+            reconfilelocation = flds.selectedDatasetField.getText()
+            recoParameters.FileLocation = flds.selectedDatasetField.getText()
             head_tail = os.path.split(reconfilelocation)
             command = "tomopy recon --file-name " + reconfilelocation + " --rotation-axis " + recoParameters.centerNumber + " --rotation-axis-auto manual " + "--reconstruction-type slice " + "--nsino " + str(slicenum) + " --gridrec-padding " + tempstring + " --remove-stripe-method " + stripestring + " --fw-pad " + fwstring
             print(command)
@@ -119,12 +118,12 @@ def reconstruct(event):
         print("Submit full stack")
         nprjForReconstruction = logfileParameters.nprj
 
-        recoParameters.sliceNumber=fields.sliceField.getText()
-        recoParameters.centerNumber=fields.centerField.getText()
-        recoParameters.nsinoperchunk=fields.nsinochunkField.getText()
+        recoParameters.sliceNumber=flds.sliceField.getText()
+        recoParameters.centerNumber=flds.centerField.getText()
+        recoParameters.nsinoperchunk=flds.nsinochunkField.getText()
         slicenum = float(recoParameters.sliceNumber)/float(920)
-        reconfilelocation = fields.selectedDatasetField.getText()
-        recoParameters.FileLocation = fields.selectedDatasetField.getText()
+        reconfilelocation = flds.selectedDatasetField.getText()
+        recoParameters.FileLocation = flds.selectedDatasetField.getText()
         head_tail = os.path.split(reconfilelocation)
         command = "tomopy recon --file-name " + reconfilelocation + " --rotation-axis " + recoParameters.centerNumber + " --rotation-axis-auto manual " + "--reconstruction-type full " + "--nsino " + str(slicenum) + " --nsino-per-chunk " + recoParameters.nsinoperchunk
         print(command)
@@ -156,13 +155,13 @@ def reconstruct(event):
     elif event.getSource() == tryButton:
 
         print("Try Reconstruction")
-        recoParameters.sliceNumber=fields.sliceField.getText()
-        recoParameters.centerNumber=fields.centerField.getText()
-        recoParameters.nsinoperchunk=fields.nsinochunkField.getText()
-        recoParameters.centerSearchWidth=fields.searchWidthField.getText()
+        recoParameters.sliceNumber=flds.sliceField.getText()
+        recoParameters.centerNumber=flds.centerField.getText()
+        recoParameters.nsinoperchunk=flds.nsinochunkField.getText()
+        recoParameters.centerSearchWidth=flds.searchWidthField.getText()
         slicenum = float(recoParameters.sliceNumber)/float(920)
-        reconfilelocation = fields.selectedDatasetField.getText()
-        recoParameters.FileLocation = fields.selectedDatasetField.getText()
+        reconfilelocation = flds.selectedDatasetField.getText()
+        recoParameters.FileLocation = flds.selectedDatasetField.getText()
         head_tail = os.path.split(reconfilelocation)
         command = "tomopy recon --file-name " + reconfilelocation + " --rotation-axis " + recoParameters.centerNumber + " --rotation-axis-auto manual " + "--reconstruction-type try " + "--nsino " + str(slicenum) + " --center-search-width " + recoParameters.centerSearchWidth
         print(command)
@@ -204,147 +203,147 @@ frame = JFrame("Reconstruction User Interface")
 contentPane = createContentPane()
 frame.setContentPane(contentPane)
 
-GUI = RecoPanel.RecoPanel()
-fields = Fields.Fields(GUI)
-recoParameters = RecoParameters.RecoParameters(world, fields)
-logfileParameters = LogfileParameters.LogfileParameters()
-sinogramCalculation = SinogramCalculation.SinogramCalculation(recoParameters,fields,logfileParameters)
-originalRotationCenter = SimpleFunctions.OriginalRotationCenter(logfileParameters,recoParameters,fields)
+GUI = panel.Panel()
+flds = fields.Fields(GUI)
+recoParameters = config.RecoParameters(world, flds)
+logfileParameters = config.Config()
+sinogramCalculation = SinogramCalculation.SinogramCalculation(recoParameters,flds,logfileParameters)
+originalRotationCenter = utils.OriginalRotationCenter(logfileParameters,recoParameters,flds)
 
-contentPane.add(fields.recoSettingsPanel)
-fields.recoSettingsPanel.add(fields.recoSettingsLabel)
+contentPane.add(flds.recoSettingsPanel)
+flds.recoSettingsPanel.add(flds.recoSettingsLabel)
 
 # Algorithm selection
-fields.recoSettingsPanel.add(fields.algoLabel)
-fields.recoSettingsPanel.add(fields.algoChooser)
+flds.recoSettingsPanel.add(flds.algoLabel)
+flds.recoSettingsPanel.add(flds.algoChooser)
 
 # Gridrec Padding
-fields.recoSettingsPanel.add(fields.gridrecLabel)
-fields.recoSettingsPanel.add(fields.gridrecChooser)
+flds.recoSettingsPanel.add(flds.gridrecLabel)
+flds.recoSettingsPanel.add(flds.gridrecChooser)
 
 # Remove Stripe Method
-fields.recoSettingsPanel.add(fields.stripeMethodLabel)
-fields.recoSettingsPanel.add(fields.stripeMethodChooser)
+flds.recoSettingsPanel.add(flds.stripeMethodLabel)
+flds.recoSettingsPanel.add(flds.stripeMethodChooser)
 
 # fw-pad
-fields.recoSettingsPanel.add(fields.fwpadLabel)
-fields.recoSettingsPanel.add(fields.fwpadChooser)
+flds.recoSettingsPanel.add(flds.fwpadLabel)
+flds.recoSettingsPanel.add(flds.fwpadChooser)
 
-#fields.getLastParametersButton.actionPerformed = getLastParameters
-fields.recoSettingsPanel.add(fields.getLastParametersButton)
+#flds.getLastParametersButton.action = getLastParameters
+flds.recoSettingsPanel.add(flds.getLastParametersButton)
 
 # Branch selection
-fields.recoSettingsPanel.add(fields.branchLabel)
-fields.recoSettingsPanel.add(fields.masterButton)
-fields.recoSettingsPanel.add(fields.develButton)
+flds.recoSettingsPanel.add(flds.branchLabel)
+flds.recoSettingsPanel.add(flds.masterButton)
+flds.recoSettingsPanel.add(flds.develButton)
 branchGroup = ButtonGroup()
-branchGroup.add(fields.masterButton)
-branchGroup.add(fields.develButton)
+branchGroup.add(flds.masterButton)
+branchGroup.add(flds.develButton)
 
 # Queue selection
-fields.recoSettingsPanel.add(fields.queueLabel)
+flds.recoSettingsPanel.add(flds.queueLabel)
 
 #logfileParameters.scanType = "Standard"
-fields.recoSettingsPanel.add(fields.NBButton)
-fields.recoSettingsPanel.add(fields.wholeButton)
-fields.recoSettingsPanel.add(fields.oldButton)
+flds.recoSettingsPanel.add(flds.NBButton)
+flds.recoSettingsPanel.add(flds.wholeButton)
+flds.recoSettingsPanel.add(flds.oldButton)
 queueGroup = ButtonGroup()
-queueGroup.add(fields.NBButton)
-queueGroup.add(fields.oldButton)
-queueGroup.add(fields.wholeButton)
+queueGroup.add(flds.NBButton)
+queueGroup.add(flds.oldButton)
+queueGroup.add(flds.wholeButton)
 if world == "online":
-    fields.NBButton.setSelected(True)
+    flds.NBButton.setSelected(True)
 else:
-    fields.oldButton.setSelected(True)
+    flds.oldButton.setSelected(True)
 
 # Number of nodes
-fields.recoSettingsPanel.add(fields.nnodeLabel)
-fields.recoSettingsPanel.add(fields.nnodeChooser)
+flds.recoSettingsPanel.add(flds.nnodeLabel)
+flds.recoSettingsPanel.add(flds.nnodeChooser)
     
 # Rotation center
-fields.recoSettingsPanel.add(fields.centerLabel)
-fields.recoSettingsPanel.add(fields.centerField)
-fields.getRotationCenterButton.actionPerformed=originalRotationCenter.getOriginalRotationCenter
-fields.recoSettingsPanel.add(fields.getRotationCenterButton)
+flds.recoSettingsPanel.add(flds.centerLabel)
+flds.recoSettingsPanel.add(flds.centerField)
+flds.getRotationCenterButton.actionPerformed=originalRotationCenter.getOriginalRotationCenter
+flds.recoSettingsPanel.add(flds.getRotationCenterButton)
 
 # Slice number
-fields.recoSettingsPanel.add(fields.sliceLabel)
-fields.recoSettingsPanel.add(fields.sliceField)
+flds.recoSettingsPanel.add(flds.sliceLabel)
+flds.recoSettingsPanel.add(flds.sliceField)
 
 # Center Search Width
-fields.recoSettingsPanel.add(fields.searchWidthLabel)
-fields.recoSettingsPanel.add(fields.searchWidthField)
+flds.recoSettingsPanel.add(flds.searchWidthLabel)
+flds.recoSettingsPanel.add(flds.searchWidthField)
 
 # nsinoPerChunk
-fields.recoSettingsPanel.add(fields.nsinochunkLabel)
-fields.recoSettingsPanel.add(fields.nsinochunkField)
+flds.recoSettingsPanel.add(flds.nsinochunkLabel)
+flds.recoSettingsPanel.add(flds.nsinochunkField)
 
 # One slice reconstruction
 oneSliceButton = GUI.createButton("Preview one slice",10,225,200,40,12,True)
 oneSliceButton.actionPerformed=reconstruct
-fields.recoSettingsPanel.add(oneSliceButton)
+flds.recoSettingsPanel.add(oneSliceButton)
 
 # Try Reconstruction
 tryButton = GUI.createButton("Try Reconstruction",10,325,200,40,12,True)
 tryButton.actionPerformed=reconstruct
-fields.recoSettingsPanel.add(tryButton)
+flds.recoSettingsPanel.add(tryButton)
 
 # Submit to the cluster
 submitButton = GUI.createButton("Submit full stack",10,425,200,40,12,True)
 submitButton.actionPerformed=reconstruct
-fields.recoSettingsPanel.add(submitButton)
+flds.recoSettingsPanel.add(submitButton)
 
 # Create a panel for choosing a dataset
-contentPane.add(fields.chooseDatasetPanel)
-fields.chooseDatasetPanel.add(fields.datasetSelectionLabel)
+contentPane.add(flds.chooseDatasetPanel)
+flds.chooseDatasetPanel.add(flds.datasetSelectionLabel)
 
 # Expert box
-fields.chooseDatasetPanel.add(fields.expertBox)
+flds.chooseDatasetPanel.add(flds.expertBox)
 
-fields.datasetSelectionButton.actionPerformed = datasetSelector
-fields.chooseDatasetPanel.add(fields.datasetSelectionButton)
-fields.chooseDatasetPanel.add(fields.selectedDatasetField)
+flds.datasetSelectionButton.actionPerformed = datasetSelector
+flds.chooseDatasetPanel.add(flds.datasetSelectionButton)
+flds.chooseDatasetPanel.add(flds.selectedDatasetField)
 
 # Change selected projection
 projectionSelectionLabel = GUI.createLabel("Projection",10,105,200,30,2,12,True)
-fields.chooseDatasetPanel.add(projectionSelectionLabel)
+flds.chooseDatasetPanel.add(projectionSelectionLabel)
 
 # Sinogram generation (sinooff_tomcat_j.py)
-fields.chooseDatasetPanel.add(fields.sinogramCalculationLabel)
-fields.chooseDatasetPanel.add(fields.sinogramCalculationButton)
-fields.sinogramCalculationButton.actionPerformed = sinogramCalculation.absorptionSinogram
+flds.chooseDatasetPanel.add(flds.sinogramCalculationLabel)
+flds.chooseDatasetPanel.add(flds.sinogramCalculationButton)
+flds.sinogramCalculationButton.actionPerformed = sinogramCalculation.absorptionSinogram
 
 frame.setSize(810,830)      
 frame.setVisible(1)
 
 # Actions
 
-getLastParametersHandler = SimpleFunctions.GetLastParameters(recoParameters)
-fields.getLastParametersButton.actionListener = getLastParametersHandler
+getLastParametersHandler = utils.GetLastParameters(recoParameters)
+flds.getLastParametersButton.actionListener = getLastParametersHandler
 
-cutOffFrequencyHandler = SimpleFunctions.CutOffFrequency(fields.filterChooser,fields.cutOffLabel,fields.cutOffField)
-fields.filterChooser.actionListener=cutOffFrequencyHandler
+cutOffFrequencyHandler = utils.CutOffFrequency(flds.filterChooser,flds.cutOffLabel,flds.cutOffField)
+flds.filterChooser.actionListener=cutOffFrequencyHandler
 
-algorithmParametersHandler = SimpleFunctions.AlgorithmParameters(fields.algoChooser,fields.filterChooser)
-fields.algoChooser.actionListener = algorithmParametersHandler
+algorithmParametersHandler = utils.AlgorithmParameters(flds.algoChooser,flds.filterChooser)
+flds.algoChooser.actionListener = algorithmParametersHandler
 
-zingerHandler = SimpleFunctions.ZingerParameters(fields.zingerBox,fields.zingerThresholdLabel,fields.zingerThresholdField,fields.zingerKernelWidthLabel,fields.zingerKernelWidthField)
-fields.zingerBox.actionListener=zingerHandler
+zingerHandler = utils.ZingerParameters(flds.zingerBox,flds.zingerThresholdLabel,flds.zingerThresholdField,flds.zingerKernelWidthLabel,flds.zingerKernelWidthField)
+flds.zingerBox.actionListener=zingerHandler
 
-ringRemovalHandler = SimpleFunctions.RingParameters(fields)
-fields.ringChooser.actionListener=ringRemovalHandler
+ringRemovalHandler = utils.RingParameters(flds)
+flds.ringChooser.actionListener=ringRemovalHandler
 
-outputChooserHandler = SimpleFunctions.LevelParameters(fields.outputChooser,fields.minLabel,fields.minField,fields.maxLabel,fields.maxField,fields.getBothButton,fields.applyBothButton)
-fields.outputChooser.actionListener=outputChooserHandler
+outputChooserHandler = utils.LevelParameters(flds.outputChooser,flds.minLabel,flds.minField,flds.maxLabel,flds.maxField,flds.getBothButton,flds.applyBothButton)
+flds.outputChooser.actionListener=outputChooserHandler
 
-expertSelectionHandler = SimpleFunctions.ExpertSelection(world,fields)
-fields.expertBox.itemListener=expertSelectionHandler
+expertSelectionHandler = utils.ExpertSelection(world,flds)
+flds.expertBox.itemListener=expertSelectionHandler
 
-approachSelectionHandler = SimpleFunctions.ApproachSelection(fields)
-fields.approachBox.actionListener=approachSelectionHandler
+approachSelectionHandler = utils.ApproachSelection(flds)
+flds.approachBox.actionListener=approachSelectionHandler
 
-cleanButtonHandler = SimpleFunctions.CleanButton(logfileParameters)
-fields.cleanButton.actionListener=cleanButtonHandler
+cleanButtonHandler = utils.CleanButton(logfileParameters)
+flds.cleanButton.actionListener=cleanButtonHandler
 
 home = expanduser("~")
 if os.path.exists(os.path.join(home, "GUIParameters.txt")) == True:
