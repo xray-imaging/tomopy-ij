@@ -10,6 +10,7 @@ class LogfileParameters:
     def setToDefaults(self):
 
         self.dataset = ""
+        self.filepath = ""
         self.datasetOut = ""
         self.datasetValid = False
         self.logdir = ""

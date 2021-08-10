@@ -132,7 +132,7 @@ class SinogramCalculation():
             
     def checkAbsorptionSinogram(self):
     
-        #print("Check abs")
+        print("Check abs")
         os.chdir(self.logfileParameters.datasetOut)
         self.absSinogramLocation=self.logfileParameters.datasetOut
         if os.path.isdir("sin")==True and "DMP" in str(os.listdir("sin")):
@@ -149,7 +149,7 @@ class SinogramCalculation():
                 self.absSinogramFound=1
             else:
                 self.absSinogramFound=0
-        #print("abs " + str(self.absSinogramFound))
+        print("abs " + str(self.absSinogramFound))
 
     def checkPhaseSinogram(self):
 
