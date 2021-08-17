@@ -58,9 +58,9 @@ class Fields():
         self.centerSearchField = GUI.createTextField(8,360,334,100,25,False,"1")
         self.centerSearchUnitsLabel = GUI.createLabel("pixels",460,330,200,30,2,12,False)
 
-        # nsinoPerChunk
-        self.nsinochunkLabel = GUI.createLabel("nsino-per-chunk",250,380,200,30,2,12,False)
-        self.nsinochunkField = GUI.createTextField(8,360,384,100,25,False,"1")
+        # nsino_x_chunk
+        self.nsinochunkLabel = GUI.createLabel("nsino_x_chunk",250,380,200,30,2,12,False)
+        self.nsino_x_chunkField = GUI.createTextField(8,360,384,100,25,False,"1")
         
         # Queue selection
         self.queueLabel = GUI.createLabel("Queue",30,423,48,30,2,10,False)

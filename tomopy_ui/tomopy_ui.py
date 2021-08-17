@@ -1,4 +1,7 @@
-import os, glob, time, sys, shutil
+import os
+import glob
+import sys
+import shutil
 from os.path import expanduser
 from ij.gui import Line
 from ij import IJ
@@ -58,7 +61,7 @@ def reconstruct(event):
     
     tomo_slice=flds.sliceField.getText()
     center=flds.centerField.getText()
-    nsino_x_chunk=flds.nsinochunkField.getText()
+    nsino_x_chunk=flds.nsino_x_chunkField.getText()
     center_search_width=flds.centerSearchField.getText()
 
     recoParameters.algo=flds.algoChooser.getSelectedIndex()
@@ -219,9 +222,9 @@ flds.recoSettingsPanel.add(flds.centerSearchLabel)
 flds.recoSettingsPanel.add(flds.centerSearchField)
 flds.recoSettingsPanel.add(flds.centerSearchUnitsLabel)
 
-# nsinoPerChunk
+# nsino_x_chunk
 flds.recoSettingsPanel.add(flds.nsinochunkLabel)
-flds.recoSettingsPanel.add(flds.nsinochunkField)
+flds.recoSettingsPanel.add(flds.nsino_x_chunkField)
 
 # Queue selection
 flds.recoSettingsPanel.add(flds.queueLabel)
@@ -265,41 +268,30 @@ flds.expertBox.itemListener=expertSelectionHandler
 paganinSelectionHandler = utils.PaganinSelection(flds)
 flds.paganinBox.itemListener=paganinSelectionHandler
 
-
-home = expanduser("~")
-if os.path.exists(os.path.join(home, "GUIParameters.txt")) == True:
-    print("GUIParameters.txt")
-elif os.path.exists(os.path.join(home, "GUIParameters.txt")) == False:
-    home = expanduser("~")
-
-    localFile = os.path.join(home, "GUIParameters.txt")
-
-    print localFile
-    print "Write to local file"
-        
+if os.path.exists(recoParameters.pfname):
+    print("Using previous parameter file")
+else:
+    print("Creating default parameter file %s", recoParameters.pfname)       
     try:
-        FILE = open(localFile,"w+")
-        FILE.write("Algorithm                  " + "0"    +"\n")
-        FILE.write("Filter                     " + "0"    +"\n")
-        FILE.write("RemoveStripeMethod         " + "0"    +"\n")
-        FILE.write("fw-pad-setting             " + "0"    +"\n")
-        # FILE.write("Rotation                   " + "0"    + "\n")
-        FILE.write("Center                     " + "1224" + "\n")
-        FILE.write("Slice                      " + "460"  + "\n")
-        FILE.write("nsino-per-chunk            " + "256"  + "\n")
-        FILE.write("centerSearchWidth          " + "10"   + "\n")
-        FILE.write("Energy                     " + "0"    +"\n")
-        FILE.write("PropagationDistance        " + "0"    +"\n")
-        FILE.write("PixelSize                  " + "0"    +"\n")
-        FILE.write("Alpha                      " + "0"    +"\n")
+        FILE = open(recoParameters.pfname,"w+")
+        FILE.write("FileName                   " + str(recoParameters.fname) +"\n")
+        FILE.write("Algorithm                  " + str(recoParameters.algorithm) +"\n")
+        FILE.write("Filter                     " + str(recoParameters.filtersIndex) +"\n")
+        FILE.write("RemoveStripeMethod         " + str(recoParameters.stripeMethod) +"\n")
+        FILE.write("Center                     " + str(recoParameters.center) +"\n")
+        FILE.write("Slice                      " + str(recoParameters.slice) +"\n")
+        FILE.write("nsino_x_chunk              " + str(recoParameters.nsino_x_chunk) +"\n")
+        FILE.write("SearchWidth                " + str(recoParameters.centerSearchWidth) +"\n")
+        FILE.write("Energy                     " + str(recoParameters.energy) +"\n")
+        FILE.write("PropagationDistance        " + str(recoParameters.propagationDistance) +"\n")
+        FILE.write("PixelSize                  " + str(recoParameters.pixelSize) +"\n")
+        FILE.write("Alpha                      " + str(recoParameters.alpha) +"\n")
+        FILE.write("Queue                      " + str(recoParameters.queue) +"\n")
+        FILE.write("Nnodes                     " + str(recoParameters.nnodes) +"\n")
         FILE.write("\n")
         FILE.close()
-
     except IOError:
         pass
-
-else:
-    pass
 
 recoParameters.readParametersFromFile()
 recoParameters.writeParametersToGUI()
