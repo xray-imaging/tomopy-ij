@@ -2,7 +2,7 @@ from javax.swing import JLabel, JPanel, JTextField, JComboBox, JButton, JRadioBu
 from java.awt.event import ActionListener
 from java.awt import Font, Color
 
-class RecoPanel:
+class Panel:
 
     def __init__(self):
         pass
