@@ -16,7 +16,7 @@ from hdf.object.h5 import H5File
 
 global selectedDatasetField, flatFieldBox
 
-sys.path.append('/Users/decarlo/conda/recomanager-last/tomopy_ui')
+sys.path.append('/Users/decarlo/conda/tomopy_ui/tomopy_ui')
 
 import panel
 import fields
