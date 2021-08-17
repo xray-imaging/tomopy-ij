@@ -54,7 +54,7 @@ to obtain the main tomopy_ui control screen:
     :width: 30%
     :align: center
 
-Once you select a valid tomographic data set the projection data will be displayed:
+Once you select a valid tomographic data set the projection data will be displayed in ImageJ as a stack:
 
 .. image:: docs/source/img/read_data.png
     :width: 15%
