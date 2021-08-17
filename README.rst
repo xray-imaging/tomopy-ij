@@ -16,7 +16,7 @@ Next install `tomopy  <https://tomopy.readthedocs.io/en/latest/install.html#inst
 
 ::
 
-	$ conda create --name tomopy --channel conda-forge tomopy
+    $ conda create --name tomopy --channel conda-forge tomopy
 
 and activate this environment with::
 
@@ -30,45 +30,49 @@ then install `dxchange <https://dxchange.readthedocs.io/>`_
 
 Finally
 
-	$ cd your_working_directory
+    $ cd your_working_directory
     $ git clone https://github.com/xray-imaging/tomopy_ui.git
 
 Modify tomopy_ui.py sys.path.append() to point to:
 ::
 
-	sys.path.append('your_working_directory/tomopy_ui')
+    sys.path.append('your_working_directory/tomopy_ui')
 
 Usage
 -----
 
 
-Start Fiji then File/Open and select the tomopy_ui/tomopy_ui.py and hit run at:
+Start Fiji then File/Open and select the tomopy_ui/tomopy_ui.py and hit run:
 
 .. image:: docs/source/img/tomopy_ui_run.png
-    :width: 50%
+    :width: 25%
     :align: center
 
-to obtain:
+to obtain the main tomopy_ui control screen:
 
 .. image:: docs/source/img/tomopy_ui.png
-    :width: 50%
+    :width: 30%
     :align: center
 
-then select a data set:
+Once you select a valid tomographic data set the projection data will be displayed:
 
 .. image:: docs/source/img/read_data.png
-    :width: 50%
+    :width: 15%
     :align: center
 
 
 Select Expert or Paganin to access additional parameters:
 
 .. image:: docs/source/img/tomopy_ui_expert.png
-    :width: 50%
+    :width: 25%
+    :align: center
+
+.. image:: docs/source/img/tomopy_ui_paganin.png
+    :width: 25%
     :align: center
 
 Press preview, try of full to reconstuct your data set:
 
 .. image:: docs/source/img/tomo_ui_recon.png
-    :width: 50%
+    :width: 30%
     :align: center
