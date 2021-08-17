@@ -9,10 +9,10 @@ class Fields():
         self.recoSettingsLabel = GUI.createLabel("Reconstruction Settings",10,5,300,30,2,14,True)
 
         # Algorithm selection
-        self.algoLabel = GUI.createLabel("Algorithm",10,35,200,30,2,12,True)
-        # self.algoList=["Gridrec","FBP"]
-        self.algoList=["Gridrec",]
-        self.algoChooser = GUI.createComboBox(self.algoList,200,35,110,25,0,10,True)
+        self.algorithmLabel = GUI.createLabel("Algorithm",10,35,200,30,2,12,True)
+        # self.algorithmList=["Gridrec","FBP"]
+        self.algorithmList=["Gridrec",]
+        self.algorithmChooser = GUI.createComboBox(self.algorithmList,200,35,110,25,0,10,True)
 
         # Filters
         self.filtersLabel = GUI.createLabel("Filters",10,65,200,30,2,12,True)

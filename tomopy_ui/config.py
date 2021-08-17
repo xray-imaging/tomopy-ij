@@ -46,7 +46,7 @@ class RecoParameters:
 
     def readParametersFromFile(self):
         
-        print("Read from local file")
+        print("Read parameters from %s", self.pfname)
         FILE = open(self.pfname,"r")
         for line in FILE:
             linelist=line.split()
@@ -85,7 +85,7 @@ class RecoParameters:
     def readParametersFromGUI(self,originalRoiX):
     
         self.fname = self.fields.selectedDatasetField.getText()
-        self.algorithm = self.fields.algoChooser.getSelectedIndex()
+        self.algorithm = self.fields.algorithmChooser.getSelectedIndex()
         self.energy = self.fields.energyField.getText()
         self.propagationDistance = self.fields.propagationDistanceField.getText()
         self.pixelSize = self.fields.pixelSizeField.getText()
@@ -165,8 +165,8 @@ class RecoParameters:
      
     def writeParametersToGUI(self):
 
-        self.fields.selectedDatasetField.setText(str(self.fname))
-        self.fields.algoChooser.setSelectedIndex(int(self.algorithm))
+        self.fields.selectedDatasetField.setText(self.fname)
+        self.fields.algorithmChooser.setSelectedIndex(int(self.algorithm))
         self.fields.energyField.setText(self.energy)
         self.fields.propagationDistanceField.setText(self.propagationDistance)
         self.fields.pixelSizeField.setText(self.pixelSize)
@@ -176,7 +176,13 @@ class RecoParameters:
         self.fields.stripeMethodChooser.setSelectedIndex(int(self.stripeMethod))
         self.fields.sliceField.setText(str(self.slice))
         self.fields.centerSearchField.setText(self.centerSearchWidth)
-        self.fields.nsino_x_chunkField.setText(str(self.nsino_x_chunk))
-
+        self.fields.nsino_x_chunkField.setText(self.nsino_x_chunk)
+        print("***********************")
+        print("***********************")
+        print(self.centerSearchWidth)
+        print(self.nsino_x_chunk)
+        print("***********************")
+        print("***********************")
+        print("***********************")
 
 

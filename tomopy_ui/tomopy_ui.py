@@ -64,7 +64,7 @@ def reconstruct(event):
     nsino_x_chunk=flds.nsino_x_chunkField.getText()
     center_search_width=flds.centerSearchField.getText()
 
-    recoParameters.algo=flds.algoChooser.getSelectedIndex()
+    recoParameters.algo=flds.algorithmChooser.getSelectedIndex()
     if recoParameters.algo == 0:
         algostring = "gridrec"
 
@@ -108,7 +108,7 @@ def reconstruct(event):
     if event.getSource() == oneSliceButton:
         print("Preview one slice")
 
-        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --reconstruction-type slice " + "--nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
+        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type slice " + "--nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
         print(command)
         os.system(command)
 
@@ -126,7 +126,7 @@ def reconstruct(event):
         if os.path.isdir(try_folder) == True:
             shutil.rmtree(try_folder)
 
-        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring +  " --reconstruction-type try " + "--center-search-width " + str(center_search_width) + " --nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
+        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type try " + "--center-search-width " + str(center_search_width) + " --nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
         print(command)
         os.system(command)
         imp = FolderOpener.open(try_folder, "virtual")
@@ -140,7 +140,7 @@ def reconstruct(event):
         if os.path.isdir(rec_folder) == True:
             shutil.rmtree(rec_folder)
 
-        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-type full " + "--nsino " + str(nsino) + " --gridrec-padding " + " --nsino-per-chunk " + nsino_x_chunk
+        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type full " + " --gridrec-padding " + " --nsino-per-chunk " + nsino_x_chunk
         print(command)
         os.system(command)
         
@@ -182,8 +182,8 @@ contentPane.add(flds.recoSettingsPanel)
 flds.recoSettingsPanel.add(flds.recoSettingsLabel)
 
 # Algorithm selection
-flds.recoSettingsPanel.add(flds.algoLabel)
-flds.recoSettingsPanel.add(flds.algoChooser)
+flds.recoSettingsPanel.add(flds.algorithmLabel)
+flds.recoSettingsPanel.add(flds.algorithmChooser)
 
 # Paganin
 flds.recoSettingsPanel.add(flds.energyLabel)
@@ -259,8 +259,8 @@ frame.setSize(810,830)
 frame.setVisible(1)
 
 # Actions
-algorithmParametersHandler = utils.AlgorithmParameters(flds.algoChooser,flds.filtersChooser)
-flds.algoChooser.actionListener = algorithmParametersHandler
+algorithmParametersHandler = utils.AlgorithmParameters(flds.algorithmChooser,flds.filtersChooser)
+flds.algorithmChooser.actionListener = algorithmParametersHandler
 
 expertSelectionHandler = utils.ExpertSelection(flds)
 flds.expertBox.itemListener=expertSelectionHandler
