@@ -16,6 +16,8 @@ from script.imglib import ImgLib
 from java.awt import event, Font
 from ch.psi.imagej.hdf5 import HDF5Reader, HDF5Utilities
 from hdf.object.h5 import H5File
+from hdf.object import Dataset
+import hdf 
 
 global selectedDatasetField, flatFieldBox
 
@@ -33,6 +35,16 @@ def createContentPane():
     panel.setOpaque(1)
     return panel
 
+def read_hdf_meta(file_name, hdf_path):
+    
+    dataFile = H5File(file_name, H5File.READ)
+    fp = dataFile.get(hdf_path)
+
+    if fp is not None:
+        return fp.getData()[0]
+    else:
+        return 0
+
 def datasetSelector(event):
 
     datasetChooser = OpenDialog("Select a dataset")
@@ -45,17 +57,29 @@ def datasetSelector(event):
     from ch.psi.imagej.hdf5 import HDF5Reader
     reader = HDF5Reader()
     stack = reader.open("",False, full_file_name, "/exchange/data", True)
+    print("**************************")
+    print("**************************")
+    print(stack.height)
+    print(stack.width)
+    print(read_hdf_meta(full_file_name, "/measurement/instrument/monochromator/energy"))
+    print(read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance"))
+    print(read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution"))
+    print("**************************")
+    print("**************************")
 
     if file_name is None:
         print("User canceled the dialog!")
     else:
-
         logfileParameters.set()
         logfileParameters.dataset = file_name
         logfileParameters.filepath = folder
+        logfileParameters.energy = read_hdf_meta(full_file_name, "/measurement/instrument/monochromator/energy")
+        logfileParameters.propagation_distance = read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance")
+        logfileParameters.resolution = read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution")
+        logfileParameters.height = stack.height
+        logfileParameters.width = stack.width
 
 def reconstruct(event):
-    global numberOfDigits
 
     recoParameters.readParametersFromGUI(logfileParameters.originalRoiX)
     
@@ -98,7 +122,13 @@ def reconstruct(event):
     elif recoParameters.filters == 7:
         filtersstring = "butterworth"
 
-    nsino = float(tomo_slice)/float(920)
+    if int(tomo_slice) < 0:
+        tomo_slice = 1
+    elif int(tomo_slice) > logfileParameters.height:
+        tomo_slice = logfileParameters.height - 1
+
+    nsino = float(tomo_slice)/float(logfileParameters.height)
+
     full_file_name = flds.selectedDatasetField.getText()
     recoParameters.FileLocation = flds.selectedDatasetField.getText()
     head_tail = os.path.split(full_file_name)

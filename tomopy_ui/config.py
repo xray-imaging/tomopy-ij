@@ -13,6 +13,11 @@ class Config:
 
         self.dataset = ""
         self.filepath = ""
+        self.energy = ""
+        self.propagation_distance = ""
+        self.resolution = ""
+        self.height = "100"
+        self.width = "0"
         self.scanType = "Standard"
         self.center = "0"
         self.originalRoiX = "0"
@@ -46,7 +51,7 @@ class RecoParameters:
 
     def readParametersFromFile(self):
         
-        print("Read parameters from %s", self.pfname)
+        print("Read parameters from ", self.pfname)
         FILE = open(self.pfname,"r")
         for line in FILE:
             linelist=line.split()
@@ -177,12 +182,3 @@ class RecoParameters:
         self.fields.sliceField.setText(str(self.slice))
         self.fields.centerSearchField.setText(self.centerSearchWidth)
         self.fields.nsino_x_chunkField.setText(self.nsino_x_chunk)
-        print("***********************")
-        print("***********************")
-        print(self.centerSearchWidth)
-        print(self.nsino_x_chunk)
-        print("***********************")
-        print("***********************")
-        print("***********************")
-
-
