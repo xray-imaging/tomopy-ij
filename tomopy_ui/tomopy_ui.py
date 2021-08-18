@@ -71,8 +71,12 @@ def datasetSelector(event):
         flds.energyField.setText(str(dataset_parameters.energy))
         flds.propagationDistanceField.setText(str(dataset_parameters.propagation_distance))
         flds.resolutionField.setText(str(dataset_parameters.resolution))
-
-
+        flds.datasetHLabel.setText(str(dataset_parameters.width))
+        flds.datasetVLabel.setText(str(dataset_parameters.height))
+        flds.centerField.setText(str(dataset_parameters.width/2))
+        flds.datasetImageSizeLabel.setVisible(True)
+        flds.datasetHLabel.setVisible(True)
+        flds.datasetVLabel.setVisible(True)
 
 def reconstruct(event):
 
@@ -86,6 +90,27 @@ def reconstruct(event):
     reco_parameters.algo = flds.algorithmChooser.getSelectedIndex()
     if reco_parameters.algo == 0:
         algostring = "gridrec"
+
+#+ " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha)
+
+    energy = flds.energyField.getText()
+    propagation_distance = flds.propagationDistanceField.getText()
+    pixel_size = flds.resolutionField.getText()
+    alpha = flds.alphaField.getText()
+    if flds.paganinBox.isSelected() == True:
+        retrieve_phase_method = 'paganin'
+        print("************************************")
+        print("************************************")
+        print("************************************")
+        print("************************************")
+        print("PAGANIN")
+        print("************************************")
+        print("************************************")
+        print("************************************")
+        print("************************************")
+    else:
+        retrieve_phase_method = 'none'        
+
 
     reco_parameters.stripeMethod = flds.stripeMethodChooser.getSelectedIndex()
     if reco_parameters.stripeMethod == 0:
@@ -133,7 +158,7 @@ def reconstruct(event):
     if event.getSource() == oneSliceButton:
         print("Preview one slice")
 
-        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type slice " + "--nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type slice " + "--nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
         print(command)
         os.system(command)
 
@@ -151,7 +176,7 @@ def reconstruct(event):
         if os.path.isdir(try_folder) == True:
             shutil.rmtree(try_folder)
 
-        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type try " + "--center-search-width " + str(center_search_width) + " --nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type try " + "--center-search-width " + str(center_search_width) + " --nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
         print(command)
         os.system(command)
         imp = FolderOpener.open(try_folder, "virtual")
@@ -165,7 +190,7 @@ def reconstruct(event):
         if os.path.isdir(rec_folder) == True:
             shutil.rmtree(rec_folder)
 
-        command = "tomopy recon --file-name " + full_file_name + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type full " + " --gridrec-padding " + " --nsino-per-chunk " + nsino_x_chunk
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type full " + " --gridrec-padding " + " --nsino-per-chunk " + nsino_x_chunk
         print(command)
         os.system(command)
         
@@ -192,6 +217,9 @@ reco_parameters = config.RecoParameters(flds)
 contentPane.add(flds.chooseDatasetPanel)
 flds.chooseDatasetPanel.add(flds.datasetSelectionLabel)
 flds.chooseDatasetPanel.add(flds.selectedDatasetField)
+flds.chooseDatasetPanel.add(flds.datasetImageSizeLabel)
+flds.chooseDatasetPanel.add(flds.datasetHLabel)
+flds.chooseDatasetPanel.add(flds.datasetVLabel)
 
 flds.chooseDatasetPanel.add(flds.datasetSelectionButton)
 flds.datasetSelectionButton.actionPerformed = datasetSelector
