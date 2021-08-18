@@ -10,18 +10,18 @@ CONFIG_FILE_NAME = os.path.join(home, "tomopy_ui.txt")
 
 class DatasetParameters:
 
-    def __init__(self):
+    def __init__(self, fields):
 
+        self.fields = fields
         self.set()
 
     def set(self):
 
-        self.dataset = ""
-        self.filepath = ""
+        self.fname = ""
         self.energy = ""
         self.propagation_distance = ""
         self.resolution = ""
-        self.height = "100"
+        self.height = "2048"
         self.width = "0"
         self.scanType = "Standard"
         self.center = "0"

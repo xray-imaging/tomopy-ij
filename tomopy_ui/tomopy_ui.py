@@ -57,36 +57,22 @@ def datasetSelector(event):
     from ch.psi.imagej.hdf5 import HDF5Reader
     reader = HDF5Reader()
     stack = reader.open("",False, full_file_name, "/exchange/data", True)
-    print("**************************")
-    print("**************************")
-    print(stack.height)
-    print(stack.width)
-    print(read_hdf_meta(full_file_name, "/measurement/instrument/monochromator/energy"))
-    print(read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance"))
-    print(read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution"))
-    print("**************************")
-    print("**************************")
 
     if file_name is None:
         print("User canceled the dialog!")
     else:
         dataset_parameters.set()
-        dataset_parameters.dataset = file_name
-        dataset_parameters.filepath = folder
+        dataset_parameters.fname = full_file_name
         dataset_parameters.energy = read_hdf_meta(full_file_name, "/measurement/instrument/monochromator/energy")
         dataset_parameters.propagation_distance = read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance")
         dataset_parameters.resolution = read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution")
         dataset_parameters.height = stack.height
         dataset_parameters.width = stack.width
-        print("**************************")
-        print("**************************")
-        print("**************************")
-        print("**************************")
-        print(reco_parameters.pfname)
-        print("**************************")
-        print("**************************")
-        print("**************************")
-        print("**************************")
+        flds.energyField.setText(str(dataset_parameters.energy))
+        flds.propagationDistanceField.setText(str(dataset_parameters.propagation_distance))
+        flds.resolutionField.setText(str(dataset_parameters.resolution))
+
+
 
 def reconstruct(event):
 
@@ -199,7 +185,7 @@ frame.setContentPane(contentPane)
 GUI = panel.Panel()
 flds = fields.Fields(GUI)
 
-dataset_parameters = config.DatasetParameters()
+dataset_parameters = config.DatasetParameters(flds)
 reco_parameters = config.RecoParameters(flds)
 
 # Create a panel for choosing a dataset
@@ -321,7 +307,7 @@ if os.path.exists(reco_parameters.pfname):
     print("************************************************")
     print("************************************************")
     print("************************************************")
-    
+
 else:
     print("Creating default parameter file %s", reco_parameters.pfname)       
     try:
