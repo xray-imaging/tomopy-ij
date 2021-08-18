@@ -52,7 +52,7 @@ def datasetSelector(event):
     folder=datasetChooser.getDirectory()
     full_file_name = str(folder) + str(file_name)
     flds.selectedDatasetField.setText(full_file_name)
-    recoParameters.FileLocation = full_file_name
+    reco_parameters.FileLocation = full_file_name
 
     from ch.psi.imagej.hdf5 import HDF5Reader
     reader = HDF5Reader()
@@ -70,67 +70,76 @@ def datasetSelector(event):
     if file_name is None:
         print("User canceled the dialog!")
     else:
-        logfileParameters.set()
-        logfileParameters.dataset = file_name
-        logfileParameters.filepath = folder
-        logfileParameters.energy = read_hdf_meta(full_file_name, "/measurement/instrument/monochromator/energy")
-        logfileParameters.propagation_distance = read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance")
-        logfileParameters.resolution = read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution")
-        logfileParameters.height = stack.height
-        logfileParameters.width = stack.width
+        dataset_parameters.set()
+        dataset_parameters.dataset = file_name
+        dataset_parameters.filepath = folder
+        dataset_parameters.energy = read_hdf_meta(full_file_name, "/measurement/instrument/monochromator/energy")
+        dataset_parameters.propagation_distance = read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance")
+        dataset_parameters.resolution = read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution")
+        dataset_parameters.height = stack.height
+        dataset_parameters.width = stack.width
+        print("**************************")
+        print("**************************")
+        print("**************************")
+        print("**************************")
+        print(reco_parameters.pfname)
+        print("**************************")
+        print("**************************")
+        print("**************************")
+        print("**************************")
 
 def reconstruct(event):
 
-    recoParameters.readParametersFromGUI(logfileParameters.originalRoiX)
+    reco_parameters.readParametersFromGUI(dataset_parameters.originalRoiX)
     
     tomo_slice=flds.sliceField.getText()
     center=flds.centerField.getText()
     nsino_x_chunk=flds.nsino_x_chunkField.getText()
     center_search_width=flds.centerSearchField.getText()
 
-    recoParameters.algo=flds.algorithmChooser.getSelectedIndex()
-    if recoParameters.algo == 0:
+    reco_parameters.algo=flds.algorithmChooser.getSelectedIndex()
+    if reco_parameters.algo == 0:
         algostring = "gridrec"
 
-    recoParameters.stripeMethod=flds.stripeMethodChooser.getSelectedIndex()
-    if recoParameters.stripeMethod == 0:
+    reco_parameters.stripeMethod=flds.stripeMethodChooser.getSelectedIndex()
+    if reco_parameters.stripeMethod == 0:
         stripestring = "none"
-    elif recoParameters.stripeMethod == 1:
+    elif reco_parameters.stripeMethod == 1:
         stripestring = "fw"
-    elif recoParameters.stripeMethod == 2:
+    elif reco_parameters.stripeMethod == 2:
         stripestring = "ti"
-    elif recoParameters.stripeMethod == 3:
+    elif reco_parameters.stripeMethod == 3:
         stripestring = "sf"
-    elif recoParameters.stripeMethod == 4:
+    elif reco_parameters.stripeMethod == 4:
         stripestring = "vo-all"
 
-    recoParameters.filters=flds.filtersChooser.getSelectedIndex()
-    if recoParameters.filters == 0:
+    reco_parameters.filters=flds.filtersChooser.getSelectedIndex()
+    if reco_parameters.filters == 0:
         filtersstring = "none"
-    elif recoParameters.filters == 1:
+    elif reco_parameters.filters == 1:
         filtersstring = "shepp"
-    elif recoParameters.filters == 2:
+    elif reco_parameters.filters == 2:
         filtersstring = "hann"
-    elif recoParameters.filters == 3:
+    elif reco_parameters.filters == 3:
         filtersstring = "hamming"
-    elif recoParameters.filters == 4:
+    elif reco_parameters.filters == 4:
         filtersstring = "ramlak"
-    elif recoParameters.filters == 5:
+    elif reco_parameters.filters == 5:
         filtersstring = "parzen"
-    elif recoParameters.filters == 6:
+    elif reco_parameters.filters == 6:
         filtersstring = "cosine"
-    elif recoParameters.filters == 7:
+    elif reco_parameters.filters == 7:
         filtersstring = "butterworth"
 
     if int(tomo_slice) < 0:
         tomo_slice = 1
-    elif int(tomo_slice) > logfileParameters.height:
-        tomo_slice = logfileParameters.height - 1
+    elif int(tomo_slice) > dataset_parameters.height:
+        tomo_slice = dataset_parameters.height - 1
 
-    nsino = float(tomo_slice)/float(logfileParameters.height)
+    nsino = float(tomo_slice)/float(dataset_parameters.height)
 
     full_file_name = flds.selectedDatasetField.getText()
-    recoParameters.FileLocation = flds.selectedDatasetField.getText()
+    reco_parameters.FileLocation = flds.selectedDatasetField.getText()
     head_tail = os.path.split(full_file_name)
     rec_folder = os.path.normpath(head_tail[0]) + "_rec"
 
@@ -162,7 +171,7 @@ def reconstruct(event):
         imp = FolderOpener.open(try_folder, "virtual")
         imp.show()
 
-    elif event.getSource() == submitButton:
+    elif event.getSource() == fullButton:
 
         print("Full")
 
@@ -177,7 +186,7 @@ def reconstruct(event):
         imp = FolderOpener.open(rec_folder, "virtual")
         imp.show()
 
-    recoParameters.writeParametersToFile()
+    reco_parameters.writeParametersToFile()
 
 
 # To have the same look on all platforms
@@ -189,8 +198,9 @@ frame.setContentPane(contentPane)
 
 GUI = panel.Panel()
 flds = fields.Fields(GUI)
-recoParameters = config.RecoParameters(flds)
-logfileParameters = config.Config()
+
+dataset_parameters = config.DatasetParameters()
+reco_parameters = config.RecoParameters(flds)
 
 # Create a panel for choosing a dataset
 contentPane.add(flds.chooseDatasetPanel)
@@ -222,9 +232,9 @@ flds.recoSettingsPanel.add(flds.energyUnitsLabel)
 flds.recoSettingsPanel.add(flds.propagationDistanceLabel)
 flds.recoSettingsPanel.add(flds.propagationDistanceField)
 flds.recoSettingsPanel.add(flds.propagationDistanceUnitsLabel)
-flds.recoSettingsPanel.add(flds.pixelSizeLabel)
-flds.recoSettingsPanel.add(flds.pixelSizeField)
-flds.recoSettingsPanel.add(flds.pixelSizeUnitsLabel)
+flds.recoSettingsPanel.add(flds.resolutionLabel)
+flds.recoSettingsPanel.add(flds.resolutionField)
+flds.recoSettingsPanel.add(flds.resolutionUnitsLabel)
 flds.recoSettingsPanel.add(flds.alphaLabel)
 flds.recoSettingsPanel.add(flds.alphaField)
 
@@ -281,9 +291,9 @@ tryButton.actionPerformed=reconstruct
 flds.recoSettingsPanel.add(tryButton)
 
 # Submit to the cluster
-submitButton = GUI.createButton("Submit full stack",10,375,200,40,12,True)
-submitButton.actionPerformed=reconstruct
-flds.recoSettingsPanel.add(submitButton)
+fullButton = GUI.createButton("Full Reconstruction",10,375,200,40,12,True)
+fullButton.actionPerformed=reconstruct
+flds.recoSettingsPanel.add(fullButton)
 
 frame.setSize(810,830)      
 frame.setVisible(1)
@@ -298,30 +308,42 @@ flds.expertBox.itemListener=expertSelectionHandler
 paganinSelectionHandler = utils.PaganinSelection(flds)
 flds.paganinBox.itemListener=paganinSelectionHandler
 
-if os.path.exists(recoParameters.pfname):
+if os.path.exists(reco_parameters.pfname):
+    print("************************************************")
+    print("************************************************")
+    print("************************************************")
+    print("************************************************")
+    print("************************************************")
     print("Using previous parameter file")
+    print("************************************************")
+    print("************************************************")
+    print("************************************************")
+    print("************************************************")
+    print("************************************************")
+    print("************************************************")
+    
 else:
-    print("Creating default parameter file %s", recoParameters.pfname)       
+    print("Creating default parameter file %s", reco_parameters.pfname)       
     try:
-        FILE = open(recoParameters.pfname,"w+")
-        FILE.write("FileName                   " + str(recoParameters.fname) +"\n")
-        FILE.write("Algorithm                  " + str(recoParameters.algorithm) +"\n")
-        FILE.write("Filter                     " + str(recoParameters.filtersIndex) +"\n")
-        FILE.write("RemoveStripeMethod         " + str(recoParameters.stripeMethod) +"\n")
-        FILE.write("Center                     " + str(recoParameters.center) +"\n")
-        FILE.write("Slice                      " + str(recoParameters.slice) +"\n")
-        FILE.write("nsino_x_chunk              " + str(recoParameters.nsino_x_chunk) +"\n")
-        FILE.write("SearchWidth                " + str(recoParameters.centerSearchWidth) +"\n")
-        FILE.write("Energy                     " + str(recoParameters.energy) +"\n")
-        FILE.write("PropagationDistance        " + str(recoParameters.propagationDistance) +"\n")
-        FILE.write("PixelSize                  " + str(recoParameters.pixelSize) +"\n")
-        FILE.write("Alpha                      " + str(recoParameters.alpha) +"\n")
-        FILE.write("Queue                      " + str(recoParameters.queue) +"\n")
-        FILE.write("Nnodes                     " + str(recoParameters.nnodes) +"\n")
+        FILE = open(reco_parameters.pfname,"w+")
+        FILE.write("FileName                   " + str(reco_parameters.fname) +"\n")
+        FILE.write("Algorithm                  " + str(reco_parameters.algorithm) +"\n")
+        FILE.write("Filter                     " + str(reco_parameters.filtersIndex) +"\n")
+        FILE.write("RemoveStripeMethod         " + str(reco_parameters.stripeMethod) +"\n")
+        FILE.write("Center                     " + str(reco_parameters.center) +"\n")
+        FILE.write("Slice                      " + str(reco_parameters.slice) +"\n")
+        FILE.write("nsino_x_chunk              " + str(reco_parameters.nsino_x_chunk) +"\n")
+        FILE.write("SearchWidth                " + str(reco_parameters.centerSearchWidth) +"\n")
+        FILE.write("Energy                     " + str(reco_parameters.energy) +"\n")
+        FILE.write("PropagationDistance        " + str(reco_parameters.propagationDistance) +"\n")
+        FILE.write("Resolution                 " + str(reco_parameters.resolution) +"\n")
+        FILE.write("Alpha                      " + str(reco_parameters.alpha) +"\n")
+        FILE.write("Queue                      " + str(reco_parameters.queue) +"\n")
+        FILE.write("Nnodes                     " + str(reco_parameters.nnodes) +"\n")
         FILE.write("\n")
         FILE.close()
     except IOError:
         pass
 
-recoParameters.readParametersFromFile()
-recoParameters.writeParametersToGUI()
+reco_parameters.readParametersFromFile()
+reco_parameters.writeParametersToGUI()

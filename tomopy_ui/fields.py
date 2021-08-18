@@ -39,9 +39,9 @@ class Fields():
         self.propagationDistanceField = GUI.createTextField(10,phase_box_x+135,phase_box_y+20,45,25,False,"0")
         self.propagationDistanceUnitsLabel = GUI.createLabel("mm",phase_box_x+180,phase_box_y+16,200,30,2,12,False)
 
-        self.pixelSizeLabel = GUI.createLabel("Pixel size",phase_box_x+70,phase_box_y-50,200,210,2,12,False)
-        self.pixelSizeField = GUI.createTextField(10,phase_box_x+135,phase_box_y+45,45,25,False,"0")
-        self.pixelSizeUnitsLabel = GUI.createLabel("microns",phase_box_x+180,phase_box_y+42,200,30,2,12,False)
+        self.resolutionLabel = GUI.createLabel("Pixel size",phase_box_x+70,phase_box_y-50,200,210,2,12,False)
+        self.resolutionField = GUI.createTextField(10,phase_box_x+135,phase_box_y+45,45,25,False,"0")
+        self.resolutionUnitsLabel = GUI.createLabel("microns",phase_box_x+180,phase_box_y+42,200,30,2,12,False)
 
         self.alphaLabel = GUI.createLabel("alpha",phase_box_x+95,phase_box_y-25,200,210,2,12,False)
         self.alphaField = GUI.createTextField(10,phase_box_x+135,phase_box_y+70,45,25,False,"0")

@@ -3,7 +3,7 @@ import sys
 from ij import IJ
 from os.path import expanduser
 
-class Config:
+class DatasetParameters:
 
     def __init__(self):
 
@@ -44,7 +44,7 @@ class RecoParameters:
         self.centerSearchWidth = 5
         self.energy = 0
         self.propagationDistance = 60
-        self.pixelSize = 1
+        self.resolution = 1
         self.alpha = 0.2
         self.queue = 'local'
         self.nnodes = 4
@@ -76,8 +76,8 @@ class RecoParameters:
                     self.energy = linelist[1]
                 elif linelist[0] == "PropagationDistance":
                     self.propagationDistance = linelist[1]
-                elif linelist[0] == "PixelSize":
-                    self.pixelSize = linelist[1]
+                elif linelist[0] == "Resolution":
+                    self.resolution = linelist[1]
                 elif linelist[0] == "Alpha":
                     self.alpha = linelist[1]
                 elif linelist[0] == "Queue":
@@ -93,7 +93,7 @@ class RecoParameters:
         self.algorithm = self.fields.algorithmChooser.getSelectedIndex()
         self.energy = self.fields.energyField.getText()
         self.propagationDistance = self.fields.propagationDistanceField.getText()
-        self.pixelSize = self.fields.pixelSizeField.getText()
+        self.resolution = self.fields.resolutionField.getText()
         self.alpha = self.fields.alphaField.getText()
         self.filtersIndex = self.fields.filtersChooser.getSelectedIndex()
         self.filtersUsed = self.fields.filtersList[self.filtersIndex]
@@ -144,27 +144,30 @@ class RecoParameters:
                 self.fields.nnodeChooser.setSelectedIndex(3)            
     
 
-    def writeParametersToFile(self):
+    def writeParametersToFile(self, section='recon'):
 
         print("Write to local file")
         try:
             FILE = open(self.pfname,"w+")
-            FILE.write("FileName                   " + self.fname + '\n')
-            FILE.write("Algorithm                  " + str(self.algorithm) +"\n")
-            FILE.write("Filter                     " + str(self.filtersIndex) + "\n")
-            FILE.write("RemoveStripeMethod         " + str(self.stripeMethod) + "\n")
-            FILE.write("Center                     " + str(self.center) + "\n")
-            FILE.write("Slice                      " + str(self.slice) + "\n")
-            FILE.write("nsino_x_chunk              " + str(self.nsino_x_chunk) + "\n")
-            FILE.write("SearchWidth                " + str(self.centerSearchWidth) + "\n")
-            FILE.write("Energy                     " + str(self.energy) + "\n")
-            FILE.write("PropagationDistance        " + str(self.propagationDistance) + "\n")
-            FILE.write("PixelSize                  " + str(self.pixelSize) + "\n")
-            FILE.write("Alpha                      " + str(self.alpha) + "\n")
-            FILE.write("Queue                      " + str(self.queue) +"\n")
-            FILE.write("Nnodes                     " + str(self.nnodes) +"\n")
-            FILE.write("\n")
-            FILE.close()
+            if section == 'recon':
+                FILE.write("FileName                   " + self.fname + '\n')
+                FILE.write("Algorithm                  " + str(self.algorithm) +"\n")
+                FILE.write("Filter                     " + str(self.filtersIndex) + "\n")
+                FILE.write("RemoveStripeMethod         " + str(self.stripeMethod) + "\n")
+                FILE.write("Center                     " + str(self.center) + "\n")
+                FILE.write("Slice                      " + str(self.slice) + "\n")
+                FILE.write("nsino_x_chunk              " + str(self.nsino_x_chunk) + "\n")
+                FILE.write("SearchWidth                " + str(self.centerSearchWidth) + "\n")
+                FILE.write("Energy                     " + str(self.energy) + "\n")
+                FILE.write("PropagationDistance        " + str(self.propagationDistance) + "\n")
+                FILE.write("Resolution                 " + str(self.resolution) + "\n")
+                FILE.write("Alpha                      " + str(self.alpha) + "\n")
+                FILE.write("Queue                      " + str(self.queue) +"\n")
+                FILE.write("Nnodes                     " + str(self.nnodes) +"\n")
+                FILE.write("\n")
+                FILE.close()
+            elif section == 'dataset':
+                pass
         except IOError:
             pass
      
@@ -174,7 +177,7 @@ class RecoParameters:
         self.fields.algorithmChooser.setSelectedIndex(int(self.algorithm))
         self.fields.energyField.setText(self.energy)
         self.fields.propagationDistanceField.setText(self.propagationDistance)
-        self.fields.pixelSizeField.setText(self.pixelSize)
+        self.fields.resolutionField.setText(str(self.resolution))
         self.fields.alphaField.setText(self.alpha)
         self.fields.filtersChooser.setSelectedIndex(self.filtersIndex)
         self.fields.centerField.setText(str(self.center))
