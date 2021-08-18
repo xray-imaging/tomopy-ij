@@ -7,20 +7,19 @@ from ij import IJ
 
 class AlgorithmParameters(event.ActionListener):
 
-    def __init__(self,algoC,filterC):
+    def __init__(self, algoC, filterC):
 
-        self.algoC=algoC
-        self.filterC=filterC
+        self.algoC = algoC
+        self.filterC = filterC
         
-        
-    def actionPerformed(self,event):
+    def actionPerformed(self, event):
     
         algorithmOption = self.algoC.getSelectedIndex()
         if algorithmOption == 0:
             self.filterC.setSelectedIndex(5)
-        elif algorithmOption==1:
+        elif algorithmOption == 1:
             self.filterC.setSelectedIndex(4)
-        elif algorithmOption==2:
+        elif algorithmOption == 2:
             IJ.showMessage("This option has not been implemented yet!" )            
             self.algoC.setSelectedIndex(0)
             self.filterC.setSelectedIndex(5)
@@ -31,7 +30,7 @@ class PaganinSelection(event.ItemListener):
 
         self.fields = fields
 
-    def itemStateChanged(self,event):
+    def itemStateChanged(self, event):
 
         if self.fields.paganinBox.isSelected() == True:
             self.fields.energyLabel.setVisible(True)
@@ -65,7 +64,7 @@ class ExpertSelection(event.ItemListener):
 
         self.fields = fields
 
-    def itemStateChanged(self,event):
+    def itemStateChanged(self, event):
 
         if self.fields.expertBox.isSelected() == True:
 

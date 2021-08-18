@@ -48,8 +48,8 @@ def read_hdf_meta(file_name, hdf_path):
 def datasetSelector(event):
 
     datasetChooser = OpenDialog("Select a dataset")
-    file_name=datasetChooser.getFileName()
-    folder=datasetChooser.getDirectory()
+    file_name = datasetChooser.getFileName()
+    folder = datasetChooser.getDirectory()
     full_file_name = str(folder) + str(file_name)
     flds.selectedDatasetField.setText(full_file_name)
     reco_parameters.FileLocation = full_file_name
@@ -92,16 +92,16 @@ def reconstruct(event):
 
     reco_parameters.readParametersFromGUI(dataset_parameters.originalRoiX)
     
-    tomo_slice=flds.sliceField.getText()
-    center=flds.centerField.getText()
-    nsino_x_chunk=flds.nsino_x_chunkField.getText()
-    center_search_width=flds.centerSearchField.getText()
+    tomo_slice = flds.sliceField.getText()
+    center = flds.centerField.getText()
+    nsino_x_chunk = flds.nsino_x_chunkField.getText()
+    center_search_width = flds.centerSearchField.getText()
 
-    reco_parameters.algo=flds.algorithmChooser.getSelectedIndex()
+    reco_parameters.algo = flds.algorithmChooser.getSelectedIndex()
     if reco_parameters.algo == 0:
         algostring = "gridrec"
 
-    reco_parameters.stripeMethod=flds.stripeMethodChooser.getSelectedIndex()
+    reco_parameters.stripeMethod = flds.stripeMethodChooser.getSelectedIndex()
     if reco_parameters.stripeMethod == 0:
         stripestring = "none"
     elif reco_parameters.stripeMethod == 1:
@@ -113,7 +113,7 @@ def reconstruct(event):
     elif reco_parameters.stripeMethod == 4:
         stripestring = "vo-all"
 
-    reco_parameters.filters=flds.filtersChooser.getSelectedIndex()
+    reco_parameters.filters = flds.filtersChooser.getSelectedIndex()
     if reco_parameters.filters == 0:
         filtersstring = "none"
     elif reco_parameters.filters == 1:
@@ -153,7 +153,7 @@ def reconstruct(event):
 
  
         list_of_files = glob.glob(os.path.join(rec_folder, "slice_rec", "*"))
-        latest_file = max(list_of_files, key=os.path.getctime)
+        latest_file = max(list_of_files, key = os.path.getctime)
         imageResult = IJ.openImage(latest_file)
         imageResult.show()
 
@@ -281,32 +281,32 @@ flds.recoSettingsPanel.add(flds.nnodeLabel)
 flds.recoSettingsPanel.add(flds.nnodeChooser)
 
 # One slice reconstruction
-oneSliceButton = GUI.createButton("Preview one slice",10,275,200,40,12,True)
-oneSliceButton.actionPerformed=reconstruct
+oneSliceButton = GUI.createButton("Preview one slice",10, 275, 200, 40, 12, True)
+oneSliceButton.actionPerformed = reconstruct
 flds.recoSettingsPanel.add(oneSliceButton)
 
 # Try Reconstruction
-tryButton = GUI.createButton("Try Reconstruction",10,325,200,40,12,True)
-tryButton.actionPerformed=reconstruct
+tryButton = GUI.createButton("Try Reconstruction",10, 325, 200, 40, 12, True)
+tryButton.actionPerformed = reconstruct
 flds.recoSettingsPanel.add(tryButton)
 
 # Submit to the cluster
-fullButton = GUI.createButton("Full Reconstruction",10,375,200,40,12,True)
-fullButton.actionPerformed=reconstruct
+fullButton = GUI.createButton("Full Reconstruction",10, 375, 200, 40, 12, True)
+fullButton.actionPerformed = reconstruct
 flds.recoSettingsPanel.add(fullButton)
 
-frame.setSize(810,830)      
+frame.setSize(810, 830)      
 frame.setVisible(1)
 
 # Actions
-algorithmParametersHandler = utils.AlgorithmParameters(flds.algorithmChooser,flds.filtersChooser)
+algorithmParametersHandler = utils.AlgorithmParameters(flds.algorithmChooser, flds.filtersChooser)
 flds.algorithmChooser.actionListener = algorithmParametersHandler
 
 expertSelectionHandler = utils.ExpertSelection(flds)
-flds.expertBox.itemListener=expertSelectionHandler
+flds.expertBox.itemListener = expertSelectionHandler
 
 paganinSelectionHandler = utils.PaganinSelection(flds)
-flds.paganinBox.itemListener=paganinSelectionHandler
+flds.paganinBox.itemListener = paganinSelectionHandler
 
 if os.path.exists(reco_parameters.pfname):
     print("************************************************")

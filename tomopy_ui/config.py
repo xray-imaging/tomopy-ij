@@ -22,7 +22,6 @@ class DatasetParameters:
         self.center = "0"
         self.originalRoiX = "0"
 
-
 class RecoParameters:
 
     def __init__(self, fields):
@@ -54,14 +53,14 @@ class RecoParameters:
         print("Read parameters from ", self.pfname)
         FILE = open(self.pfname,"r")
         for line in FILE:
-            linelist=line.split()
+            linelist = line.split()
             if len(linelist)>0:
                 if linelist[0] == "FileName":
                     self.fname = linelist[1]
                 elif linelist[0] == "Algorithm":
                     self.algorithm = linelist[1]
                 elif linelist[0] == "Filter":
-                    self.filtersIndex=int(linelist[1])            
+                    self.filtersIndex = int(linelist[1])            
                 elif linelist[0] == "RemoveStripeMethod":
                     self.stripeMethod = linelist[1]
                 elif linelist[0] == "Center":
@@ -86,8 +85,7 @@ class RecoParameters:
                     self.nnodes = linelist[1]
         FILE.close()        
         
-
-    def readParametersFromGUI(self,originalRoiX):
+    def readParametersFromGUI(self, originalRoiX):
     
         self.fname = self.fields.selectedDatasetField.getText()
         self.algorithm = self.fields.algorithmChooser.getSelectedIndex()
@@ -97,21 +95,21 @@ class RecoParameters:
         self.alpha = self.fields.alphaField.getText()
         self.filtersIndex = self.fields.filtersChooser.getSelectedIndex()
         self.filtersUsed = self.fields.filtersList[self.filtersIndex]
-        if self.filtersIndex==0:
+        if self.filtersIndex == 0:
             self.filtersOption = "none"
-        elif self.filtersIndex==1:
+        elif self.filtersIndex == 1:
             self.filtersOption = "shepp"
-        elif self.filtersIndex==2:
+        elif self.filtersIndex == 2:
             self.filtersOption = "hann"
-        elif self.filtersIndex==3:
+        elif self.filtersIndex == 3:
             self.filtersOption = "hammimg"
-        elif self.filtersIndex==4:
+        elif self.filtersIndex == 4:
             self.filtersOption = "ramlak"
-        elif self.filtersIndex==5:
+        elif self.filtersIndex == 5:
             self.filtersOption = "parzen"
-        elif self.filtersIndex==6:
+        elif self.filtersIndex == 6:
             self.filtersOption = "cosine"
-        elif self.filtersIndex==7:
+        elif self.filtersIndex == 7:
             self.filterOption = "butterworth"
 
         self.center = self.fields.centerField.getText()
@@ -133,17 +131,16 @@ class RecoParameters:
             print("This queue option is not implemented yet")
             sys.exit()
     
-        self.nnodes=self.fields.nnodeChooser.getSelectedIndex()+1
+        self.nnodes = self.fields.nnodeChooser.getSelectedIndex()+1
         if self.queue=="ALCF":
             if self.nnodes>8:
-                self.nnodes=8
+                self.nnodes = 8
                 self.fields.nnodeChooser.setSelectedIndex(7)
         else:
             if self.nnodes>4:
-                self.nnodes=4
+                self.nnodes = 4
                 self.fields.nnodeChooser.setSelectedIndex(3)            
     
-
     def writeParametersToFile(self, section='recon'):
 
         print("Write to local file")
