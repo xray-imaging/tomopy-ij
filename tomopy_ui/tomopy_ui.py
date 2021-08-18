@@ -295,19 +295,7 @@ paganinSelectionHandler = utils.PaganinSelection(flds)
 flds.paganinBox.itemListener = paganinSelectionHandler
 
 if os.path.exists(reco_parameters.pfname):
-    print("************************************************")
-    print("************************************************")
-    print("************************************************")
-    print("************************************************")
-    print("************************************************")
     print("Using previous parameter file")
-    print("************************************************")
-    print("************************************************")
-    print("************************************************")
-    print("************************************************")
-    print("************************************************")
-    print("************************************************")
-
 else:
     print("Creating default parameter file %s", reco_parameters.pfname)       
     try:
