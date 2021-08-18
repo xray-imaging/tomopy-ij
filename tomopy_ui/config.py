@@ -3,6 +3,11 @@ import sys
 from ij import IJ
 from os.path import expanduser
 
+
+home = expanduser("~")
+CONFIG_FILE_NAME = os.path.join(home, "tomopy_ui.txt")
+
+
 class DatasetParameters:
 
     def __init__(self):
@@ -31,8 +36,7 @@ class RecoParameters:
 
     def set(self):  
 
-        home = expanduser("~")
-        self.pfname = os.path.join(home, "tomopy_ui.txt")
+        self.pfname = CONFIG_FILE_NAME
         self.fname = ""
         self.algorithm = 0
         self.filtersIndex = 0
@@ -85,7 +89,7 @@ class RecoParameters:
                     self.nnodes = linelist[1]
         FILE.close()        
         
-    def readParametersFromGUI(self, originalRoiX):
+    def readParametersFromGUI(self,originalRoiX):
     
         self.fname = self.fields.selectedDatasetField.getText()
         self.algorithm = self.fields.algorithmChooser.getSelectedIndex()
