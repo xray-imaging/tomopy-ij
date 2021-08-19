@@ -17,9 +17,15 @@ from java.awt import event, Font
 from ch.psi.imagej.hdf5 import HDF5Reader, HDF5Utilities
 from hdf.object.h5 import H5File
 from hdf.object import Dataset
-import hdf 
 
-sys.path.append('/Users/decarlo/conda/tomopy_ui/tomopy_ui')
+# Linux/MacOS - replace username
+# sys.path.append(('/Users/username/conda/tomopy_ui/tomopy_ui'))
+
+# Windows - replace username
+# sys.path.append('C:/Users/username/tomopy-ui/tomopy_ui')
+
+#sys.path.append('/Users/decarlo/conda/tomopy_ui/tomopy_ui')
+sys.path.append('/local/fast/conda/tomopy-ui/tomopy_ui')
 
 import panel
 import fields
@@ -75,8 +81,8 @@ def datasetSelector(event):
         dataset_parameters.propagation_distance = read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance")
         dataset_parameters.pixel_size = read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution")
         dataset_parameters.theta = read_hdf_theta(full_file_name, "/exchange/theta")
-        dataset_parameters.thetaStart = dataset_parameters.theta[0]
-        dataset_parameters.thetaEnd = dataset_parameters.theta[0-1]
+        dataset_parameters.thetaStart = round(dataset_parameters.theta[0], 3)
+        dataset_parameters.thetaEnd = round(dataset_parameters.theta[-1], 3)
         dataset_parameters.height = stack.height
         dataset_parameters.width = stack.width
         flds.energyField.setText(str(dataset_parameters.energy))
