@@ -5,7 +5,7 @@ tomopy-ui
 tomopy-ui provides ImageJ support to `tomopy  <https://tomopy.readthedocs.io>`_.
 
 tomopy-ui is derived from the `TOMCAT recomanager <https://github.com/xray-imaging/recomanager/tree/f308766a9c163333ceac93fa80996b77e50e98de>`_ 
-developed by Federica Marone at the Swiss Light Source as described `here <https://doi.org/10.1186/s40679-016-0035-9>`_ and it is customized to provide similar functionality to the APS Imaging Group user community.
+developed by Federica Marone at the Swiss Light Source as described `here <https://doi.org/10.1186/s40679-016-0035-9>`_ and it is customized to provide similar functionality to the APS beamlines using `tomoScan <https://tomoscan.readthedocs.io/>`_.
 
 Installation
 ------------
