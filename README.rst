@@ -48,7 +48,7 @@ Modify tomopy_ui.py sys.path.append() to point to:
 
 ::
 
-    sys.path.append('your_working_directory/tomopy_ui')
+    sys.path.append('your_working_directory/tomopy-ui/tomopy_ui')
 
 Usage
 -----
