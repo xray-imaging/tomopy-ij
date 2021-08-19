@@ -3,20 +3,29 @@ import sys
 from ij import IJ
 from os.path import expanduser
 
-class Config:
 
-    def __init__(self):
+home = expanduser("~")
+CONFIG_FILE_NAME = os.path.join(home, "tomopy_ui.txt")
 
+
+class DatasetParameters:
+
+    def __init__(self, fields):
+
+        self.fields = fields
         self.set()
 
     def set(self):
 
-        self.dataset = ""
-        self.filepath = ""
+        self.fname = ""
+        self.energy = ""
+        self.propagation_distance = ""
+        self.pixel_size = ""
+        self.height = "2048"
+        self.width = "0"
         self.scanType = "Standard"
         self.center = "0"
         self.originalRoiX = "0"
-
 
 class RecoParameters:
 
@@ -27,156 +36,153 @@ class RecoParameters:
 
     def set(self):  
 
-        self.FileLocation = ""
+        self.pfname = CONFIG_FILE_NAME
+        self.fname = ""
         self.algorithm = 0
-        self.energy = "10"
-        self.propagationDistance = "60"
-        self.pixelSize = "1.34"
-        self.alpha = "0.2"
-        self.filtersIndex = 5
-        # self.filtersUsed = "Parzen"
-        # self.cutOffFrequency = "0.5"
-        # self.filterOption = "parzen"
-        self.center = "1024"
-        self.stripeMethod = 0
-        # self.stripeMethodIndex = 0
-        self.slice = "1"
-        self.centerSearchWidth= "10"
-        self.nsinoperchunk = "256"
-        # self.guiCenter = "0"
-        home = expanduser("~")
-        self.pfname = os.path.join(home, "GUIParameters.txt")
+        self.filter_index = 0
+        self.stripe_method = 0
+        self.center = 0
+        self.slice = 0
+        self.nsino_x_chunk = 16
+        self.center_search_width = 5
+        self.energy = 0
+        self.propagation_distance = 60
+        self.pixel_size = 1
+        self.alpha = 0.2
+        self.queue = 'local'
+        self.nnodes = 4
 
     def readParametersFromFile(self):
         
-        print("Read from local file")
+        print("Read parameters from ", self.pfname)
         FILE = open(self.pfname,"r")
         for line in FILE:
-            linelist=line.split()
+            linelist = line.split()
             if len(linelist)>0:
                 if linelist[0] == "FileName":
-                    self.FileLocation = linelist[1]
+                    self.fname = linelist[1]
                 elif linelist[0] == "Algorithm":
                     self.algorithm = linelist[1]
+                elif linelist[0] == "Filter":
+                    self.filter_index = int(linelist[1])            
+                elif linelist[0] == "RemoveStripeMethod":
+                    self.stripe_method = linelist[1]
+                elif linelist[0] == "Center":
+                    self.center = linelist[1]
+                elif linelist[0] == "Slice":
+                    self.slice = linelist[1]
+                elif linelist[0] == "NsinoPerChunk":
+                    self.nsino_x_chunk = linelist[1]
+                elif linelist[0] == "SearchWidth":
+                    self.center_search_width = linelist[1]
                 elif linelist[0] == "Energy":
                     self.energy = linelist[1]
                 elif linelist[0] == "PropagationDistance":
-                    self.propagationDistance = linelist[1]
+                    self.propagation_distance = linelist[1]
                 elif linelist[0] == "PixelSize":
-                    self.pixelSize = linelist[1]
+                    self.pixel_size = linelist[1]
                 elif linelist[0] == "Alpha":
                     self.alpha = linelist[1]
-                elif linelist[0] == "Filter":
-                    self.filtersIndex=int(linelist[1])            
-                elif linelist[0] == "Center":
-                    self.center = linelist[1]
-                elif linelist[0] == "RemoveStripeMethod":
-                    self.stripeMethod = linelist[1]
-                elif linelist[0] == "Slice":
-                    self.slice = linelist[1]
-                elif linelist[0] == "SearchWidth":
-                    self.centerSearchWidth = linelist[1]
-                elif linelist[0] == "nsino-per-chunk":
-                    self.nsinoperchunk = linelist[1]
+                elif linelist[0] == "Queue":
+                    self.queue = linelist[1]
+                elif linelist[0] == "Nnodes":
+                    self.nnodes = linelist[1]
         FILE.close()        
         
-
     def readParametersFromGUI(self,originalRoiX):
     
-        self.FileLocation = self.fields.selectedDatasetField.getText()
-        self.algorithm = self.fields.algoChooser.getSelectedIndex()
+        self.fname = self.fields.selectedDatasetField.getText()
+        self.algorithm = self.fields.algorithmChooser.getSelectedIndex()
         self.energy = self.fields.energyField.getText()
-        self.propagationDistance = self.fields.propagationDistanceField.getText()
-        self.pixelSize = self.fields.pixelSizeField.getText()
+        self.propagation_distance = self.fields.propagation_distanceField.getText()
+        self.pixel_size = self.fields.pixel_sizeField.getText()
         self.alpha = self.fields.alphaField.getText()
-        self.filtersIndex = self.fields.filtersChooser.getSelectedIndex()
-        self.filtersUsed = self.fields.filtersList[self.filtersIndex]
-        if self.filtersIndex==0:
-            self.filtersOption = "none"
-        elif self.filtersIndex==1:
-            self.filtersOption = "shepp"
-        elif self.filtersIndex==2:
-            self.filtersOption = "hann"
-        elif self.filtersIndex==3:
-            self.filtersOption = "hammimg"
-        elif self.filtersIndex==4:
-            self.filtersOption = "ramlak"
-        elif self.filtersIndex==5:
-            self.filtersOption = "parzen"
-        elif self.filtersIndex==6:
-            self.filtersOption = "cosine"
-        elif self.filtersIndex==7:
+        self.filter_index = self.fields.filterChooser.getSelectedIndex()
+        self.filterUsed = self.fields.filterList[self.filter_index]
+        if self.filter_index == 0:
+            self.filterOption = "none"
+        elif self.filter_index == 1:
+            self.filterOption = "shepp"
+        elif self.filter_index == 2:
+            self.filterOption = "hann"
+        elif self.filter_index == 3:
+            self.filterOption = "hammimg"
+        elif self.filter_index == 4:
+            self.filterOption = "ramlak"
+        elif self.filter_index == 5:
+            self.filterOption = "parzen"
+        elif self.filter_index == 6:
+            self.filterOption = "cosine"
+        elif self.filter_index == 7:
             self.filterOption = "butterworth"
 
         self.center = self.fields.centerField.getText()
-        self.stripeMethod = self.fields.stripeMethodChooser.getSelectedIndex()
+        self.stripe_method = self.fields.stripe_methodChooser.getSelectedIndex()
         self.slice = self.fields.sliceField.getText()
-        self.centerSearchWidth = self.fields.centerSearchField.getText()
-        self.nsinoperchunk = self.fields.nsinochunkField.getText()
+        self.center_search_width = self.fields.centerSearchField.getText()
+        self.nsino_x_chunk = self.fields.nsino_x_chunkField.getText()
 
         if self.fields.localButton.isSelected():
             self.queue="local"
-            print "local cluster is selected"
+            print("local cluster is selected")
         elif self.fields.lcrcButton.isSelected():
             self.queue="LCRC"
-            print "LCRC cluster is selected"
+            print("LCRC cluster is selected")
         elif self.fields.alcfButton.isSelected():
             self.queue="ALCF"
-            print "ALCF cluster is selected"
+            print("ALCF cluster is selected")
         else:
-            print "This queue option is not implemented yet"
+            print("This queue option is not implemented yet")
             sys.exit()
     
-        self.nnodes=self.fields.nnodeChooser.getSelectedIndex()+1
+        self.nnodes = self.fields.nnodeChooser.getSelectedIndex()+1
         if self.queue=="ALCF":
             if self.nnodes>8:
-                self.nnodes=8
+                self.nnodes = 8
                 self.fields.nnodeChooser.setSelectedIndex(7)
         else:
             if self.nnodes>4:
-                self.nnodes=4
+                self.nnodes = 4
                 self.fields.nnodeChooser.setSelectedIndex(3)            
     
-
-    def writeParametersToFile(self):
+    def writeParametersToFile(self, section='recon'):
 
         print("Write to local file")
         try:
             FILE = open(self.pfname,"w+")
-            FILE.write("FileName                   " + self.FileLocation + '\n')
-            FILE.write("Algorithm                  " + str(self.algorithm) +"\n")
-            FILE.write("Energy                     " + str(self.energy) + "\n")
-            FILE.write("PropagationDistance        " + str(self.propagationDistance) + "\n")
-            FILE.write("PixelSize                  " + str(self.pixelSize) + "\n")
-            FILE.write("Alpha                      " + str(self.alpha) + "\n")
-            FILE.write("Filter                     " + str(self.filtersIndex) + "\n")
-            FILE.write("Center                     " + str(self.center) + "\n")
-            FILE.write("RemoveStripeMethod         " + str(self.stripeMethod) + "\n")
-            FILE.write("Slice                      " + str(self.slice) + "\n")
-            FILE.write("SearchWidth                " + str(self.centerSearchWidth) + "\n")
-            FILE.write("nsino-per-chunk            " + str(self.nsinoperchunk) + "\n")
-
-            FILE.write("Queue                      " + str(self.queue) +"\n")
-            FILE.write("Nnodes                     " + str(self.nnodes) +"\n")
-            FILE.write("\n")
-            FILE.close()
+            if section == 'recon':
+                FILE.write("FileName                   " + self.fname + '\n')
+                FILE.write("Algorithm                  " + str(self.algorithm) +"\n")
+                FILE.write("Filter                     " + str(self.filter_index) + "\n")
+                FILE.write("RemoveStripeMethod         " + str(self.stripe_method) + "\n")
+                FILE.write("Center                     " + str(self.center) + "\n")
+                FILE.write("Slice                      " + str(self.slice) + "\n")
+                FILE.write("NsinoPerChunk              " + str(self.nsino_x_chunk) + "\n")
+                FILE.write("SearchWidth                " + str(self.center_search_width) + "\n")
+                FILE.write("Energy                     " + str(self.energy) + "\n")
+                FILE.write("PropagationDistance        " + str(self.propagation_distance) + "\n")
+                FILE.write("PixelSize                  " + str(self.pixel_size) + "\n")
+                FILE.write("Alpha                      " + str(self.alpha) + "\n")
+                FILE.write("Queue                      " + str(self.queue) +"\n")
+                FILE.write("Nnodes                     " + str(self.nnodes) +"\n")
+                FILE.write("\n")
+                FILE.close()
+            elif section == 'dataset':
+                pass
         except IOError:
             pass
      
     def writeParametersToGUI(self):
 
-        self.fields.selectedDatasetField.setText(str(self.FileLocation))
-        self.fields.algoChooser.setSelectedIndex(int(self.algorithm))
+        self.fields.selectedDatasetField.setText(self.fname)
+        self.fields.algorithmChooser.setSelectedIndex(int(self.algorithm))
         self.fields.energyField.setText(self.energy)
-        self.fields.propagationDistanceField.setText(self.propagationDistance)
-        self.fields.pixelSizeField.setText(self.pixelSize)
+        self.fields.propagation_distanceField.setText(self.propagation_distance)
+        self.fields.pixel_sizeField.setText(str(self.pixel_size))
         self.fields.alphaField.setText(self.alpha)
-        self.fields.filtersChooser.setSelectedIndex(self.filtersIndex)
+        self.fields.filterChooser.setSelectedIndex(self.filter_index)
         self.fields.centerField.setText(str(self.center))
-        self.fields.stripeMethodChooser.setSelectedIndex(int(self.stripeMethod))
+        self.fields.stripe_methodChooser.setSelectedIndex(int(self.stripe_method))
         self.fields.sliceField.setText(str(self.slice))
-        self.fields.centerSearchField.setText(self.centerSearchWidth)
-        self.fields.nsinochunkField.setText(self.nsinoperchunk)
-
-
-
+        self.fields.centerSearchField.setText(self.center_search_width)
+        self.fields.nsino_x_chunkField.setText(str(self.nsino_x_chunk))
