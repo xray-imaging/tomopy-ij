@@ -37,7 +37,7 @@ class RecoParameters:
     def set(self):  
 
         self.pfname = CONFIG_FILE_NAME
-        self.fname = ""
+        self.fname = "Select_an_HDF_file"
         self.algorithm = 0
         self.filter_index = 0
         self.stripe_method = 0
@@ -53,8 +53,7 @@ class RecoParameters:
         self.nnodes = 4
 
     def readParametersFromFile(self):
-        
-        print("Read parameters from ", self.pfname)
+
         FILE = open(self.pfname,"r")
         for line in FILE:
             linelist = line.split()

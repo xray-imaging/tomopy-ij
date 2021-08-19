@@ -32,19 +32,19 @@ class Fields():
         phase_box_x = 400
         phase_box_y = 17
         self.energyLabel = GUI.createLabel("Energy", phase_box_x+90, phase_box_y-100, 200, 210, 2, 12, False)
-        self.energyField = GUI.createTextField(10, phase_box_x+135, phase_box_y-5, 45, 25, False,"0")
-        self.energyUnitsLabel = GUI.createLabel("keV", phase_box_x+180, phase_box_y-9, 200, 30, 2, 12, False)
+        self.energyField = GUI.createTextField(10, phase_box_x+140, phase_box_y-5, 55, 25, False,"0")
+        self.energyUnitsLabel = GUI.createLabel("keV", phase_box_x+200, phase_box_y-9, 200, 30, 2, 12, False)
 
-        self.propagation_distanceLabel = GUI.createLabel("Propagation distance", phase_box_x, phase_box_y-75, 200, 210, 2, 12, False)
-        self.propagation_distanceField = GUI.createTextField(10, phase_box_x+135, phase_box_y+20, 45, 25, False,"0")
-        self.propagation_distanceUnitsLabel = GUI.createLabel("mm", phase_box_x+180, phase_box_y+16, 200, 30, 2, 12, False)
+        self.propagation_distanceLabel = GUI.createLabel("Propagation dist.", phase_box_x+15, phase_box_y-75, 200, 210, 2, 12, False)
+        self.propagation_distanceField = GUI.createTextField(10, phase_box_x+140, phase_box_y+20, 55, 25, False,"0")
+        self.propagation_distanceUnitsLabel = GUI.createLabel("mm", phase_box_x+200, phase_box_y+16, 200, 30, 2, 12, False)
 
         self.pixel_sizeLabel = GUI.createLabel("Pixel size", phase_box_x+70, phase_box_y-50, 200, 210, 2, 12, False)
-        self.pixel_sizeField = GUI.createTextField(10, phase_box_x+135, phase_box_y+45, 45, 25, False,"0")
-        self.pixel_sizeUnitsLabel = GUI.createLabel("microns", phase_box_x+180, phase_box_y+42, 200, 30, 2, 12, False)
+        self.pixel_sizeField = GUI.createTextField(10, phase_box_x+140, phase_box_y+45, 55, 25, False,"0")
+        self.pixel_sizeUnitsLabel = GUI.createLabel("microns", phase_box_x+200, phase_box_y+42, 200, 30, 2, 12, False)
 
         self.alphaLabel = GUI.createLabel("alpha", phase_box_x+95, phase_box_y-25, 200, 210, 2, 12, False)
-        self.alphaField = GUI.createTextField(10, phase_box_x+135, phase_box_y+70, 45, 25, False,"0")
+        self.alphaField = GUI.createTextField(10, phase_box_x+140, phase_box_y+70, 55, 25, False,"0")
 
         # Paganin check box
         self.paganinBox = GUI.createCheckBox("Paganin", 310, 34, 90, 25, 10, True)
@@ -84,14 +84,14 @@ class Fields():
         self.selectedDatasetField = GUI.createTextField(20, 210, 57, 350, 25, True,"")
 
         # Image size
-        self.datasetImageSizeLabel = GUI.createLabel("Image size (h, v):", 565, 55, 200, 30, 2, 14, False)
-        self.datasetHLabel = GUI.createLabel("", 690, 55, 200, 30, 2, 14, False)
-        self.datasetVLabel = GUI.createLabel("", 740, 55, 200, 30, 2, 14, False)
+        self.datasetImageSizeLabel = GUI.createLabel("Image size (h, v):", 565, 55, 200, 30, 2, 12, False)
+        self.datasetHLabel = GUI.createLabel("", 690, 55, 200, 30, 2, 12, False)
+        self.datasetVLabel = GUI.createLabel("", 740, 55, 200, 30, 2, 12, False)
  
         # Theta
-        self.datasetThetaLabel = GUI.createLabel("Theta range:", 565, 75, 200, 30, 2, 14, False)
-        self.datasetThetaStartLabel = GUI.createLabel("", 660, 75, 200, 30, 2, 14, False)
-        self.datasetThetaEndLabel = GUI.createLabel("", 705, 75, 200, 30, 2, 14, False)
+        self.datasetThetaLabel = GUI.createLabel("Theta range:", 565, 75, 200, 30, 2, 12, False)
+        self.datasetThetaStartLabel = GUI.createLabel("", 660, 75, 200, 30, 2, 12, False)
+        self.datasetThetaEndLabel = GUI.createLabel("", 705, 75, 200, 30, 2, 12, False)
                
         # Expert box
         self.expertBox = GUI.createCheckBox("Expert", 725, 5, 60, 15, 8, True)
