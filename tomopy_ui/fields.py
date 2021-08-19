@@ -83,11 +83,19 @@ class Fields():
         self.datasetSelectionButton = GUI.createButton("Select a dataset", 10, 50, 200, 40, 12, True)
         self.selectedDatasetField = GUI.createTextField(20, 210, 57, 350, 25, True,"")
 
+        # Image size
         self.datasetImageSizeLabel = GUI.createLabel("Image size (h, v):", 565, 55, 200, 30, 2, 14, False)
         self.datasetHLabel = GUI.createLabel("", 690, 55, 200, 30, 2, 14, False)
         self.datasetVLabel = GUI.createLabel("", 740, 55, 200, 30, 2, 14, False)
+ 
+        # Theta
+        self.datasetThetaLabel = GUI.createLabel("Theta range:", 565, 75, 200, 30, 2, 14, False)
+        self.datasetThetaStartLabel = GUI.createLabel("", 660, 75, 200, 30, 2, 14, False)
+        self.datasetThetaEndLabel = GUI.createLabel("", 705, 75, 200, 30, 2, 14, False)
                
         # Expert box
         self.expertBox = GUI.createCheckBox("Expert", 725, 5, 60, 15, 8, True)
 
+        # 360 box
+        self.flipStichBox = GUI.createCheckBox("360", 625, 5, 60, 15, 8, True)
 

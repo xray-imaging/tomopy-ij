@@ -19,8 +19,6 @@ from hdf.object.h5 import H5File
 from hdf.object import Dataset
 import hdf 
 
-global selectedDatasetField
-
 sys.path.append('/Users/decarlo/conda/tomopy_ui/tomopy_ui')
 
 import panel
@@ -45,6 +43,16 @@ def read_hdf_meta(file_name, hdf_path):
     else:
         return 0
 
+def read_hdf_theta(file_name, hdf_path):
+    
+    dataFile = H5File(file_name, H5File.READ)
+    fp = dataFile.get(hdf_path)
+
+    if fp is not None:
+        return fp.getData()
+    else:
+        return 0
+
 def datasetSelector(event):
 
     datasetChooser = OpenDialog("Select a dataset")
@@ -66,17 +74,41 @@ def datasetSelector(event):
         dataset_parameters.energy = read_hdf_meta(full_file_name, "/measurement/instrument/monochromator/energy")
         dataset_parameters.propagation_distance = read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance")
         dataset_parameters.pixel_size = read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution")
+        dataset_parameters.theta = read_hdf_theta(full_file_name, "/exchange/theta")
+        dataset_parameters.thetaStart = dataset_parameters.theta[0]
+        dataset_parameters.thetaEnd = dataset_parameters.theta[0-1]
+        print(dataset_parameters.theta[-1])
         dataset_parameters.height = stack.height
         dataset_parameters.width = stack.width
+        
+
+        print("**************************************")
+        print("**************************************")
+        print("**************************************")
+        print("**************************************")
+        print(dir(stack))
+        print(dataset_parameters.theta[0])
+        print(dataset_parameters.theta[-1])
+        print("**************************************")
+        print("**************************************")
+        print("**************************************")
+        print("**************************************")
+        print("**************************************")
         flds.energyField.setText(str(dataset_parameters.energy))
         flds.propagation_distanceField.setText(str(dataset_parameters.propagation_distance))
         flds.pixel_sizeField.setText(str(dataset_parameters.pixel_size))
+        flds.datasetThetaStartLabel.setText(str(dataset_parameters.thetaStart))
+        flds.datasetThetaEndLabel.setText(str(dataset_parameters.thetaEnd))
         flds.datasetHLabel.setText(str(dataset_parameters.width))
         flds.datasetVLabel.setText(str(dataset_parameters.height))
         flds.centerField.setText(str(dataset_parameters.width/2))
+
         flds.datasetImageSizeLabel.setVisible(True)
         flds.datasetHLabel.setVisible(True)
         flds.datasetVLabel.setVisible(True)
+        flds.datasetThetaLabel.setVisible(True)
+        flds.datasetThetaStartLabel.setVisible(True)
+        flds.datasetThetaEndLabel.setVisible(True)
 
 def reconstruct(event):
 
@@ -208,11 +240,18 @@ flds.chooseDatasetPanel.add(flds.datasetImageSizeLabel)
 flds.chooseDatasetPanel.add(flds.datasetHLabel)
 flds.chooseDatasetPanel.add(flds.datasetVLabel)
 
+flds.chooseDatasetPanel.add(flds.datasetThetaLabel)
+flds.chooseDatasetPanel.add(flds.datasetThetaStartLabel)
+flds.chooseDatasetPanel.add(flds.datasetThetaEndLabel)
+
 flds.chooseDatasetPanel.add(flds.datasetSelectionButton)
 flds.datasetSelectionButton.actionPerformed = datasetSelector
 
 # Expert box
 flds.chooseDatasetPanel.add(flds.expertBox)
+
+# 360t box
+flds.chooseDatasetPanel.add(flds.flipStichBox)
 
 # Create a panel for reconstrution settings
 contentPane.add(flds.recoSettingsPanel)
