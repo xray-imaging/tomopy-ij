@@ -99,48 +99,39 @@ def reconstruct(event):
     alpha = flds.alphaField.getText()
     if flds.paganinBox.isSelected() == True:
         retrieve_phase_method = 'paganin'
-        print("************************************")
-        print("************************************")
-        print("************************************")
-        print("************************************")
-        print("PAGANIN")
-        print("************************************")
-        print("************************************")
-        print("************************************")
-        print("************************************")
     else:
         retrieve_phase_method = 'none'        
 
 
     reco_parameters.stripeMethod = flds.stripeMethodChooser.getSelectedIndex()
     if reco_parameters.stripeMethod == 0:
-        stripestring = "none"
+        stripe_method = "none"
     elif reco_parameters.stripeMethod == 1:
-        stripestring = "fw"
+        stripe_method = "fw"
     elif reco_parameters.stripeMethod == 2:
-        stripestring = "ti"
+        stripe_method = "ti"
     elif reco_parameters.stripeMethod == 3:
-        stripestring = "sf"
+        stripe_method = "sf"
     elif reco_parameters.stripeMethod == 4:
-        stripestring = "vo-all"
+        stripe_method = "vo-all"
 
-    reco_parameters.filters = flds.filtersChooser.getSelectedIndex()
-    if reco_parameters.filters == 0:
-        filtersstring = "none"
-    elif reco_parameters.filters == 1:
-        filtersstring = "shepp"
-    elif reco_parameters.filters == 2:
-        filtersstring = "hann"
-    elif reco_parameters.filters == 3:
-        filtersstring = "hamming"
-    elif reco_parameters.filters == 4:
-        filtersstring = "ramlak"
-    elif reco_parameters.filters == 5:
-        filtersstring = "parzen"
-    elif reco_parameters.filters == 6:
-        filtersstring = "cosine"
-    elif reco_parameters.filters == 7:
-        filtersstring = "butterworth"
+    reco_parameters.filter = flds.filterChooser.getSelectedIndex()
+    if reco_parameters.filter == 0:
+        filter = "none"
+    elif reco_parameters.filter == 1:
+        filter = "shepp"
+    elif reco_parameters.filter == 2:
+        filter = "hann"
+    elif reco_parameters.filter == 3:
+        filter = "hamming"
+    elif reco_parameters.filter == 4:
+        filter = "ramlak"
+    elif reco_parameters.filter == 5:
+        filter = "parzen"
+    elif reco_parameters.filter == 6:
+        filter = "cosine"
+    elif reco_parameters.filter == 7:
+        filter = "butterworth"
 
     if int(tomo_slice) < 0:
         tomo_slice = 1
@@ -158,7 +149,7 @@ def reconstruct(event):
     if event.getSource() == oneSliceButton:
         print("Preview one slice")
 
-        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type slice " + "--nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filter + " --reconstruction-type slice " + "--nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripe_method + " --fw-pad "
         print(command)
         os.system(command)
 
@@ -176,7 +167,7 @@ def reconstruct(event):
         if os.path.isdir(try_folder) == True:
             shutil.rmtree(try_folder)
 
-        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type try " + "--center-search-width " + str(center_search_width) + " --nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripestring + " --fw-pad "
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filter + " --reconstruction-type try " + "--center-search-width " + str(center_search_width) + " --nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripe_method + " --fw-pad "
         print(command)
         os.system(command)
         imp = FolderOpener.open(try_folder, "virtual")
@@ -190,7 +181,7 @@ def reconstruct(event):
         if os.path.isdir(rec_folder) == True:
             shutil.rmtree(rec_folder)
 
-        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filtersstring + " --reconstruction-type full " + " --gridrec-padding " + " --nsino-per-chunk " + nsino_x_chunk
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filter + " --reconstruction-type full " + " --gridrec-padding " + " --nsino-per-chunk " + nsino_x_chunk
         print(command)
         os.system(command)
         
@@ -255,9 +246,9 @@ flds.recoSettingsPanel.add(flds.alphaField)
 # Paganin box
 flds.recoSettingsPanel.add(flds.paganinBox)
 
-# Filters
-flds.recoSettingsPanel.add(flds.filtersLabel)
-flds.recoSettingsPanel.add(flds.filtersChooser)
+# filter
+flds.recoSettingsPanel.add(flds.filterLabel)
+flds.recoSettingsPanel.add(flds.filterChooser)
 
 # Rotation center
 flds.recoSettingsPanel.add(flds.centerLabel)
@@ -277,7 +268,7 @@ flds.recoSettingsPanel.add(flds.centerSearchField)
 flds.recoSettingsPanel.add(flds.centerSearchUnitsLabel)
 
 # nsino_x_chunk
-flds.recoSettingsPanel.add(flds.nsinochunkLabel)
+flds.recoSettingsPanel.add(flds.nsino_x_chunkLabel)
 flds.recoSettingsPanel.add(flds.nsino_x_chunkField)
 
 # Queue selection
@@ -313,7 +304,7 @@ frame.setSize(810, 830)
 frame.setVisible(1)
 
 # Actions
-algorithmParametersHandler = utils.AlgorithmParameters(flds.algorithmChooser, flds.filtersChooser)
+algorithmParametersHandler = utils.AlgorithmParameters(flds.algorithmChooser, flds.filterChooser)
 flds.algorithmChooser.actionListener = algorithmParametersHandler
 
 expertSelectionHandler = utils.ExpertSelection(flds)
@@ -330,7 +321,7 @@ else:
         FILE = open(reco_parameters.pfname,"w+")
         FILE.write("FileName                   " + str(reco_parameters.fname) +"\n")
         FILE.write("Algorithm                  " + str(reco_parameters.algorithm) +"\n")
-        FILE.write("Filter                     " + str(reco_parameters.filtersIndex) +"\n")
+        FILE.write("Filter                     " + str(reco_parameters.filterIndex) +"\n")
         FILE.write("RemoveStripeMethod         " + str(reco_parameters.stripeMethod) +"\n")
         FILE.write("Center                     " + str(reco_parameters.center) +"\n")
         FILE.write("Slice                      " + str(reco_parameters.slice) +"\n")

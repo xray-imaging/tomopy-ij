@@ -39,7 +39,7 @@ class RecoParameters:
         self.pfname = CONFIG_FILE_NAME
         self.fname = ""
         self.algorithm = 0
-        self.filtersIndex = 0
+        self.filterIndex = 0
         self.stripeMethod = 0
         self.center = 0
         self.slice = 0
@@ -64,7 +64,7 @@ class RecoParameters:
                 elif linelist[0] == "Algorithm":
                     self.algorithm = linelist[1]
                 elif linelist[0] == "Filter":
-                    self.filtersIndex = int(linelist[1])            
+                    self.filterIndex = int(linelist[1])            
                 elif linelist[0] == "RemoveStripeMethod":
                     self.stripeMethod = linelist[1]
                 elif linelist[0] == "Center":
@@ -97,23 +97,23 @@ class RecoParameters:
         self.propagationDistance = self.fields.propagationDistanceField.getText()
         self.resolution = self.fields.resolutionField.getText()
         self.alpha = self.fields.alphaField.getText()
-        self.filtersIndex = self.fields.filtersChooser.getSelectedIndex()
-        self.filtersUsed = self.fields.filtersList[self.filtersIndex]
-        if self.filtersIndex == 0:
-            self.filtersOption = "none"
-        elif self.filtersIndex == 1:
-            self.filtersOption = "shepp"
-        elif self.filtersIndex == 2:
-            self.filtersOption = "hann"
-        elif self.filtersIndex == 3:
-            self.filtersOption = "hammimg"
-        elif self.filtersIndex == 4:
-            self.filtersOption = "ramlak"
-        elif self.filtersIndex == 5:
-            self.filtersOption = "parzen"
-        elif self.filtersIndex == 6:
-            self.filtersOption = "cosine"
-        elif self.filtersIndex == 7:
+        self.filterIndex = self.fields.filterChooser.getSelectedIndex()
+        self.filterUsed = self.fields.filterList[self.filterIndex]
+        if self.filterIndex == 0:
+            self.filterOption = "none"
+        elif self.filterIndex == 1:
+            self.filterOption = "shepp"
+        elif self.filterIndex == 2:
+            self.filterOption = "hann"
+        elif self.filterIndex == 3:
+            self.filterOption = "hammimg"
+        elif self.filterIndex == 4:
+            self.filterOption = "ramlak"
+        elif self.filterIndex == 5:
+            self.filterOption = "parzen"
+        elif self.filterIndex == 6:
+            self.filterOption = "cosine"
+        elif self.filterIndex == 7:
             self.filterOption = "butterworth"
 
         self.center = self.fields.centerField.getText()
@@ -153,7 +153,7 @@ class RecoParameters:
             if section == 'recon':
                 FILE.write("FileName                   " + self.fname + '\n')
                 FILE.write("Algorithm                  " + str(self.algorithm) +"\n")
-                FILE.write("Filter                     " + str(self.filtersIndex) + "\n")
+                FILE.write("Filter                     " + str(self.filterIndex) + "\n")
                 FILE.write("RemoveStripeMethod         " + str(self.stripeMethod) + "\n")
                 FILE.write("Center                     " + str(self.center) + "\n")
                 FILE.write("Slice                      " + str(self.slice) + "\n")
@@ -180,7 +180,7 @@ class RecoParameters:
         self.fields.propagationDistanceField.setText(self.propagationDistance)
         self.fields.resolutionField.setText(str(self.resolution))
         self.fields.alphaField.setText(self.alpha)
-        self.fields.filtersChooser.setSelectedIndex(self.filtersIndex)
+        self.fields.filterChooser.setSelectedIndex(self.filterIndex)
         self.fields.centerField.setText(str(self.center))
         self.fields.stripeMethodChooser.setSelectedIndex(int(self.stripeMethod))
         self.fields.sliceField.setText(str(self.slice))

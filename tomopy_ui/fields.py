@@ -14,10 +14,10 @@ class Fields():
         self.algorithmList=["Gridrec",]
         self.algorithmChooser = GUI.createComboBox(self.algorithmList, 200, 35, 110, 25, 0, 10, True)
 
-        # Filters
-        self.filtersLabel = GUI.createLabel("Filters", 10, 65, 200, 30, 2, 12, True)
-        self.filtersList=["None","Shepp-Logan","Hanning","Hamming","Ramlak","Parzen","cosine","butterworth"]
-        self.filtersChooser = GUI.createComboBox(self.filtersList, 200, 65, 110, 25, 0, 10, True)
+        # filter
+        self.filterLabel = GUI.createLabel("filter", 10, 65, 200, 30, 2, 12, True)
+        self.filterList=["None","Shepp-Logan","Hanning","Hamming","Ramlak","Parzen","cosine","butterworth"]
+        self.filterChooser = GUI.createComboBox(self.filterList, 200, 65, 110, 25, 0, 10, True)
 
         # Rotation center
         self.centerLabel = GUI.createLabel("Rotation center", 10, 95, 200, 30, 2, 12, True)
@@ -59,7 +59,7 @@ class Fields():
         self.centerSearchUnitsLabel = GUI.createLabel("pixels", 460, 330, 200, 30, 2, 12, False)
 
         # nsino_x_chunk
-        self.nsinochunkLabel = GUI.createLabel("nsino_x_chunk", 250, 380, 200, 30, 2, 12, False)
+        self.nsino_x_chunkLabel = GUI.createLabel("nsino_x_chunk", 250, 380, 200, 30, 2, 12, False)
         self.nsino_x_chunkField = GUI.createTextField(8, 360, 384, 100, 25, False,"1")
         
         # Queue selection

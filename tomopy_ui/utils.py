@@ -70,7 +70,7 @@ class ExpertSelection(event.ItemListener):
 
             self.fields.sliceLabel.setVisible(True)
             self.fields.sliceField.setVisible(True)
-            self.fields.nsinochunkLabel.setVisible(True)
+            self.fields.nsino_x_chunkLabel.setVisible(True)
             self.fields.nsino_x_chunkField.setVisible(True)
             self.fields.centerSearchLabel.setVisible(True)
             self.fields.centerSearchField.setVisible(True)
@@ -84,7 +84,7 @@ class ExpertSelection(event.ItemListener):
         else:
             self.fields.sliceLabel.setVisible(False)
             self.fields.sliceField.setVisible(False)
-            self.fields.nsinochunkLabel.setVisible(False)
+            self.fields.nsino_x_chunkLabel.setVisible(False)
             self.fields.nsino_x_chunkField.setVisible(False)
             self.fields.centerSearchLabel.setVisible(False)
             self.fields.centerSearchField.setVisible(False)
