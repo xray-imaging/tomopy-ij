@@ -77,23 +77,8 @@ def datasetSelector(event):
         dataset_parameters.theta = read_hdf_theta(full_file_name, "/exchange/theta")
         dataset_parameters.thetaStart = dataset_parameters.theta[0]
         dataset_parameters.thetaEnd = dataset_parameters.theta[0-1]
-        print(dataset_parameters.theta[-1])
         dataset_parameters.height = stack.height
         dataset_parameters.width = stack.width
-        
-
-        print("**************************************")
-        print("**************************************")
-        print("**************************************")
-        print("**************************************")
-        print(dir(stack))
-        print(dataset_parameters.theta[0])
-        print(dataset_parameters.theta[-1])
-        print("**************************************")
-        print("**************************************")
-        print("**************************************")
-        print("**************************************")
-        print("**************************************")
         flds.energyField.setText(str(dataset_parameters.energy))
         flds.propagation_distanceField.setText(str(dataset_parameters.propagation_distance))
         flds.pixel_sizeField.setText(str(dataset_parameters.pixel_size))
