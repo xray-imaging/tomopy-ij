@@ -54,7 +54,7 @@ class Fields():
         self.sliceField = GUI.createTextField(10, 360, 280, 100, 25, False,"0")
 
         # Center Search Width
-        self.centerSearchLabel = GUI.createLabel("Center Search +/-",250, 330, 200, 30, 2, 12, False)
+        self.centerSearchLabel = GUI.createLabel("Center Search +/-",230, 330, 200, 30, 2, 12, False)
         self.centerSearchField = GUI.createTextField(8, 360, 334, 100, 25, False,"1")
         self.centerSearchUnitsLabel = GUI.createLabel("pixels", 460, 330, 200, 30, 2, 12, False)
 
