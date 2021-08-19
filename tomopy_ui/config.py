@@ -20,7 +20,7 @@ class DatasetParameters:
         self.fname = ""
         self.energy = ""
         self.propagation_distance = ""
-        self.resolution = ""
+        self.pixel_size = ""
         self.height = "2048"
         self.width = "0"
         self.scanType = "Standard"
@@ -47,7 +47,7 @@ class RecoParameters:
         self.centerSearchWidth = 5
         self.energy = 0
         self.propagationDistance = 60
-        self.resolution = 1
+        self.pixel_size = 1
         self.alpha = 0.2
         self.queue = 'local'
         self.nnodes = 4
@@ -79,8 +79,8 @@ class RecoParameters:
                     self.energy = linelist[1]
                 elif linelist[0] == "PropagationDistance":
                     self.propagationDistance = linelist[1]
-                elif linelist[0] == "Resolution":
-                    self.resolution = linelist[1]
+                elif linelist[0] == "pixel_size":
+                    self.pixel_size = linelist[1]
                 elif linelist[0] == "Alpha":
                     self.alpha = linelist[1]
                 elif linelist[0] == "Queue":
@@ -95,7 +95,7 @@ class RecoParameters:
         self.algorithm = self.fields.algorithmChooser.getSelectedIndex()
         self.energy = self.fields.energyField.getText()
         self.propagationDistance = self.fields.propagationDistanceField.getText()
-        self.resolution = self.fields.resolutionField.getText()
+        self.pixel_size = self.fields.pixel_sizeField.getText()
         self.alpha = self.fields.alphaField.getText()
         self.filterIndex = self.fields.filterChooser.getSelectedIndex()
         self.filterUsed = self.fields.filterList[self.filterIndex]
@@ -161,7 +161,7 @@ class RecoParameters:
                 FILE.write("SearchWidth                " + str(self.centerSearchWidth) + "\n")
                 FILE.write("Energy                     " + str(self.energy) + "\n")
                 FILE.write("PropagationDistance        " + str(self.propagationDistance) + "\n")
-                FILE.write("Resolution                 " + str(self.resolution) + "\n")
+                FILE.write("pixel_size                 " + str(self.pixel_size) + "\n")
                 FILE.write("Alpha                      " + str(self.alpha) + "\n")
                 FILE.write("Queue                      " + str(self.queue) +"\n")
                 FILE.write("Nnodes                     " + str(self.nnodes) +"\n")
@@ -178,7 +178,7 @@ class RecoParameters:
         self.fields.algorithmChooser.setSelectedIndex(int(self.algorithm))
         self.fields.energyField.setText(self.energy)
         self.fields.propagationDistanceField.setText(self.propagationDistance)
-        self.fields.resolutionField.setText(str(self.resolution))
+        self.fields.pixel_sizeField.setText(str(self.pixel_size))
         self.fields.alphaField.setText(self.alpha)
         self.fields.filterChooser.setSelectedIndex(self.filterIndex)
         self.fields.centerField.setText(str(self.center))

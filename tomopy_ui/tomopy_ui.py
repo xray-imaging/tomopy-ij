@@ -65,12 +65,12 @@ def datasetSelector(event):
         dataset_parameters.fname = full_file_name
         dataset_parameters.energy = read_hdf_meta(full_file_name, "/measurement/instrument/monochromator/energy")
         dataset_parameters.propagation_distance = read_hdf_meta(full_file_name, "/measurement/instrument/camera_motor_stack/setup/camera_distance")
-        dataset_parameters.resolution = read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution")
+        dataset_parameters.pixel_size = read_hdf_meta(full_file_name, "/measurement/instrument/detection_system/objective/resolution")
         dataset_parameters.height = stack.height
         dataset_parameters.width = stack.width
         flds.energyField.setText(str(dataset_parameters.energy))
         flds.propagationDistanceField.setText(str(dataset_parameters.propagation_distance))
-        flds.resolutionField.setText(str(dataset_parameters.resolution))
+        flds.pixel_sizeField.setText(str(dataset_parameters.pixel_size))
         flds.datasetHLabel.setText(str(dataset_parameters.width))
         flds.datasetVLabel.setText(str(dataset_parameters.height))
         flds.centerField.setText(str(dataset_parameters.width/2))
@@ -91,11 +91,9 @@ def reconstruct(event):
     if reco_parameters.algo == 0:
         algostring = "gridrec"
 
-#+ " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha)
-
     energy = flds.energyField.getText()
     propagation_distance = flds.propagationDistanceField.getText()
-    pixel_size = flds.resolutionField.getText()
+    pixel_size = flds.pixel_sizeField.getText()
     alpha = flds.alphaField.getText()
     if flds.paganinBox.isSelected() == True:
         retrieve_phase_method = 'paganin'
@@ -237,9 +235,9 @@ flds.recoSettingsPanel.add(flds.energyUnitsLabel)
 flds.recoSettingsPanel.add(flds.propagationDistanceLabel)
 flds.recoSettingsPanel.add(flds.propagationDistanceField)
 flds.recoSettingsPanel.add(flds.propagationDistanceUnitsLabel)
-flds.recoSettingsPanel.add(flds.resolutionLabel)
-flds.recoSettingsPanel.add(flds.resolutionField)
-flds.recoSettingsPanel.add(flds.resolutionUnitsLabel)
+flds.recoSettingsPanel.add(flds.pixel_sizeLabel)
+flds.recoSettingsPanel.add(flds.pixel_sizeField)
+flds.recoSettingsPanel.add(flds.pixel_sizeUnitsLabel)
 flds.recoSettingsPanel.add(flds.alphaLabel)
 flds.recoSettingsPanel.add(flds.alphaField)
 
@@ -329,7 +327,7 @@ else:
         FILE.write("SearchWidth                " + str(reco_parameters.centerSearchWidth) +"\n")
         FILE.write("Energy                     " + str(reco_parameters.energy) +"\n")
         FILE.write("PropagationDistance        " + str(reco_parameters.propagationDistance) +"\n")
-        FILE.write("Resolution                 " + str(reco_parameters.resolution) +"\n")
+        FILE.write("pixel_size                 " + str(reco_parameters.pixel_size) +"\n")
         FILE.write("Alpha                      " + str(reco_parameters.alpha) +"\n")
         FILE.write("Queue                      " + str(reco_parameters.queue) +"\n")
         FILE.write("Nnodes                     " + str(reco_parameters.nnodes) +"\n")
