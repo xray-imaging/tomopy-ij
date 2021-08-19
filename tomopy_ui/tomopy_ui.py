@@ -19,7 +19,7 @@ from hdf.object.h5 import H5File
 from hdf.object import Dataset
 import hdf 
 
-global selectedDatasetField, flatFieldBox
+global selectedDatasetField
 
 sys.path.append('/Users/decarlo/conda/tomopy_ui/tomopy_ui')
 
@@ -87,9 +87,9 @@ def reconstruct(event):
     nsino_x_chunk = flds.nsino_x_chunkField.getText()
     center_search_width = flds.centerSearchField.getText()
 
-    reco_parameters.algo = flds.algorithmChooser.getSelectedIndex()
-    if reco_parameters.algo == 0:
-        algostring = "gridrec"
+    reco_parameters.algorithm = flds.algorithmChooser.getSelectedIndex()
+    if reco_parameters.algorithm == 0:
+        algorithm = "gridrec"
 
     energy = flds.energyField.getText()
     propagation_distance = flds.propagation_distanceField.getText()
@@ -99,7 +99,6 @@ def reconstruct(event):
         retrieve_phase_method = 'paganin'
     else:
         retrieve_phase_method = 'none'        
-
 
     reco_parameters.stripe_method = flds.stripe_methodChooser.getSelectedIndex()
     if reco_parameters.stripe_method == 0:
@@ -139,7 +138,6 @@ def reconstruct(event):
     nsino = float(tomo_slice)/float(dataset_parameters.height)
 
     full_file_name = flds.selectedDatasetField.getText()
-    reco_parameters.FileLocation = flds.selectedDatasetField.getText()
     head_tail = os.path.split(full_file_name)
     rec_folder = os.path.normpath(head_tail[0]) + "_rec"
 
@@ -147,7 +145,7 @@ def reconstruct(event):
     if event.getSource() == oneSliceButton:
         print("Preview one slice")
 
-        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filter + " --reconstruction-type slice " + "--nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripe_method + " --fw-pad "
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algorithm + " --gridrec-filter " + filter + " --reconstruction-type slice " + "--nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripe_method + " --fw-pad "
         print(command)
         os.system(command)
 
@@ -165,7 +163,7 @@ def reconstruct(event):
         if os.path.isdir(try_folder) == True:
             shutil.rmtree(try_folder)
 
-        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filter + " --reconstruction-type try " + "--center-search-width " + str(center_search_width) + " --nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripe_method + " --fw-pad "
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algorithm + " --gridrec-filter " + filter + " --reconstruction-type try " + "--center-search-width " + str(center_search_width) + " --nsino " + str(nsino) + " --gridrec-padding " + " --remove-stripe-method " + stripe_method + " --fw-pad "
         print(command)
         os.system(command)
         imp = FolderOpener.open(try_folder, "virtual")
@@ -179,7 +177,7 @@ def reconstruct(event):
         if os.path.isdir(rec_folder) == True:
             shutil.rmtree(rec_folder)
 
-        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algostring + " --gridrec-filter " + filter + " --reconstruction-type full " + " --gridrec-padding " + " --nsino-per-chunk " + nsino_x_chunk
+        command = "tomopy recon --file-name " + full_file_name + " --retrieve-phase-method " + retrieve_phase_method + " --energy " + str(energy) + " --propagation-distance " + str(propagation_distance) + " --pixel-size " + str(pixel_size) + " --retrieve-phase-alpha " + str(alpha) + " --rotation-axis " + center + " --rotation-axis-auto manual " + "--reconstruction-algorithm " + algorithm + " --gridrec-filter " + filter + " --reconstruction-type full " + " --gridrec-padding " + " --nsino-per-chunk " + nsino_x_chunk
         print(command)
         os.system(command)
         
