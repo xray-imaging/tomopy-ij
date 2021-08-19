@@ -69,7 +69,7 @@ def datasetSelector(event):
         dataset_parameters.height = stack.height
         dataset_parameters.width = stack.width
         flds.energyField.setText(str(dataset_parameters.energy))
-        flds.propagationDistanceField.setText(str(dataset_parameters.propagation_distance))
+        flds.propagation_distanceField.setText(str(dataset_parameters.propagation_distance))
         flds.pixel_sizeField.setText(str(dataset_parameters.pixel_size))
         flds.datasetHLabel.setText(str(dataset_parameters.width))
         flds.datasetVLabel.setText(str(dataset_parameters.height))
@@ -92,7 +92,7 @@ def reconstruct(event):
         algostring = "gridrec"
 
     energy = flds.energyField.getText()
-    propagation_distance = flds.propagationDistanceField.getText()
+    propagation_distance = flds.propagation_distanceField.getText()
     pixel_size = flds.pixel_sizeField.getText()
     alpha = flds.alphaField.getText()
     if flds.paganinBox.isSelected() == True:
@@ -101,16 +101,16 @@ def reconstruct(event):
         retrieve_phase_method = 'none'        
 
 
-    reco_parameters.stripeMethod = flds.stripeMethodChooser.getSelectedIndex()
-    if reco_parameters.stripeMethod == 0:
+    reco_parameters.stripe_method = flds.stripe_methodChooser.getSelectedIndex()
+    if reco_parameters.stripe_method == 0:
         stripe_method = "none"
-    elif reco_parameters.stripeMethod == 1:
+    elif reco_parameters.stripe_method == 1:
         stripe_method = "fw"
-    elif reco_parameters.stripeMethod == 2:
+    elif reco_parameters.stripe_method == 2:
         stripe_method = "ti"
-    elif reco_parameters.stripeMethod == 3:
+    elif reco_parameters.stripe_method == 3:
         stripe_method = "sf"
-    elif reco_parameters.stripeMethod == 4:
+    elif reco_parameters.stripe_method == 4:
         stripe_method = "vo-all"
 
     reco_parameters.filter = flds.filterChooser.getSelectedIndex()
@@ -232,9 +232,9 @@ flds.recoSettingsPanel.add(flds.algorithmChooser)
 flds.recoSettingsPanel.add(flds.energyLabel)
 flds.recoSettingsPanel.add(flds.energyField)
 flds.recoSettingsPanel.add(flds.energyUnitsLabel)
-flds.recoSettingsPanel.add(flds.propagationDistanceLabel)
-flds.recoSettingsPanel.add(flds.propagationDistanceField)
-flds.recoSettingsPanel.add(flds.propagationDistanceUnitsLabel)
+flds.recoSettingsPanel.add(flds.propagation_distanceLabel)
+flds.recoSettingsPanel.add(flds.propagation_distanceField)
+flds.recoSettingsPanel.add(flds.propagation_distanceUnitsLabel)
 flds.recoSettingsPanel.add(flds.pixel_sizeLabel)
 flds.recoSettingsPanel.add(flds.pixel_sizeField)
 flds.recoSettingsPanel.add(flds.pixel_sizeUnitsLabel)
@@ -253,8 +253,8 @@ flds.recoSettingsPanel.add(flds.centerLabel)
 flds.recoSettingsPanel.add(flds.centerField)
 
 # Remove Stripe Method
-flds.recoSettingsPanel.add(flds.stripeMethodLabel)
-flds.recoSettingsPanel.add(flds.stripeMethodChooser)
+flds.recoSettingsPanel.add(flds.stripe_methodLabel)
+flds.recoSettingsPanel.add(flds.stripe_methodChooser)
 
 # Slice number
 flds.recoSettingsPanel.add(flds.sliceLabel)
@@ -319,15 +319,15 @@ else:
         FILE = open(reco_parameters.pfname,"w+")
         FILE.write("FileName                   " + str(reco_parameters.fname) +"\n")
         FILE.write("Algorithm                  " + str(reco_parameters.algorithm) +"\n")
-        FILE.write("Filter                     " + str(reco_parameters.filterIndex) +"\n")
-        FILE.write("RemoveStripeMethod         " + str(reco_parameters.stripeMethod) +"\n")
+        FILE.write("Filter                     " + str(reco_parameters.filter_index) +"\n")
+        FILE.write("RemoveStripeMethod         " + str(reco_parameters.stripe_method) +"\n")
         FILE.write("Center                     " + str(reco_parameters.center) +"\n")
         FILE.write("Slice                      " + str(reco_parameters.slice) +"\n")
-        FILE.write("nsino_x_chunk              " + str(reco_parameters.nsino_x_chunk) +"\n")
-        FILE.write("SearchWidth                " + str(reco_parameters.centerSearchWidth) +"\n")
+        FILE.write("NsinoPerChunk              " + str(reco_parameters.nsino_x_chunk) +"\n")
+        FILE.write("SearchWidth                " + str(reco_parameters.center_search_width) +"\n")
         FILE.write("Energy                     " + str(reco_parameters.energy) +"\n")
-        FILE.write("PropagationDistance        " + str(reco_parameters.propagationDistance) +"\n")
-        FILE.write("pixel_size                 " + str(reco_parameters.pixel_size) +"\n")
+        FILE.write("PropagationDistance        " + str(reco_parameters.propagation_distance) +"\n")
+        FILE.write("PixelSize                  " + str(reco_parameters.pixel_size) +"\n")
         FILE.write("Alpha                      " + str(reco_parameters.alpha) +"\n")
         FILE.write("Queue                      " + str(reco_parameters.queue) +"\n")
         FILE.write("Nnodes                     " + str(reco_parameters.nnodes) +"\n")

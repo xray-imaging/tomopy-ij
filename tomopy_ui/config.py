@@ -39,14 +39,14 @@ class RecoParameters:
         self.pfname = CONFIG_FILE_NAME
         self.fname = ""
         self.algorithm = 0
-        self.filterIndex = 0
-        self.stripeMethod = 0
+        self.filter_index = 0
+        self.stripe_method = 0
         self.center = 0
         self.slice = 0
         self.nsino_x_chunk = 16
-        self.centerSearchWidth = 5
+        self.center_search_width = 5
         self.energy = 0
-        self.propagationDistance = 60
+        self.propagation_distance = 60
         self.pixel_size = 1
         self.alpha = 0.2
         self.queue = 'local'
@@ -64,22 +64,22 @@ class RecoParameters:
                 elif linelist[0] == "Algorithm":
                     self.algorithm = linelist[1]
                 elif linelist[0] == "Filter":
-                    self.filterIndex = int(linelist[1])            
+                    self.filter_index = int(linelist[1])            
                 elif linelist[0] == "RemoveStripeMethod":
-                    self.stripeMethod = linelist[1]
+                    self.stripe_method = linelist[1]
                 elif linelist[0] == "Center":
                     self.center = linelist[1]
                 elif linelist[0] == "Slice":
                     self.slice = linelist[1]
-                elif linelist[0] == "nsino_x_chunk":
+                elif linelist[0] == "NsinoPerChunk":
                     self.nsino_x_chunk = linelist[1]
                 elif linelist[0] == "SearchWidth":
-                    self.centerSearchWidth = linelist[1]
+                    self.center_search_width = linelist[1]
                 elif linelist[0] == "Energy":
                     self.energy = linelist[1]
                 elif linelist[0] == "PropagationDistance":
-                    self.propagationDistance = linelist[1]
-                elif linelist[0] == "pixel_size":
+                    self.propagation_distance = linelist[1]
+                elif linelist[0] == "PixelSize":
                     self.pixel_size = linelist[1]
                 elif linelist[0] == "Alpha":
                     self.alpha = linelist[1]
@@ -94,32 +94,32 @@ class RecoParameters:
         self.fname = self.fields.selectedDatasetField.getText()
         self.algorithm = self.fields.algorithmChooser.getSelectedIndex()
         self.energy = self.fields.energyField.getText()
-        self.propagationDistance = self.fields.propagationDistanceField.getText()
+        self.propagation_distance = self.fields.propagation_distanceField.getText()
         self.pixel_size = self.fields.pixel_sizeField.getText()
         self.alpha = self.fields.alphaField.getText()
-        self.filterIndex = self.fields.filterChooser.getSelectedIndex()
-        self.filterUsed = self.fields.filterList[self.filterIndex]
-        if self.filterIndex == 0:
+        self.filter_index = self.fields.filterChooser.getSelectedIndex()
+        self.filterUsed = self.fields.filterList[self.filter_index]
+        if self.filter_index == 0:
             self.filterOption = "none"
-        elif self.filterIndex == 1:
+        elif self.filter_index == 1:
             self.filterOption = "shepp"
-        elif self.filterIndex == 2:
+        elif self.filter_index == 2:
             self.filterOption = "hann"
-        elif self.filterIndex == 3:
+        elif self.filter_index == 3:
             self.filterOption = "hammimg"
-        elif self.filterIndex == 4:
+        elif self.filter_index == 4:
             self.filterOption = "ramlak"
-        elif self.filterIndex == 5:
+        elif self.filter_index == 5:
             self.filterOption = "parzen"
-        elif self.filterIndex == 6:
+        elif self.filter_index == 6:
             self.filterOption = "cosine"
-        elif self.filterIndex == 7:
+        elif self.filter_index == 7:
             self.filterOption = "butterworth"
 
         self.center = self.fields.centerField.getText()
-        self.stripeMethod = self.fields.stripeMethodChooser.getSelectedIndex()
+        self.stripe_method = self.fields.stripe_methodChooser.getSelectedIndex()
         self.slice = self.fields.sliceField.getText()
-        self.centerSearchWidth = self.fields.centerSearchField.getText()
+        self.center_search_width = self.fields.centerSearchField.getText()
         self.nsino_x_chunk = self.fields.nsino_x_chunkField.getText()
 
         if self.fields.localButton.isSelected():
@@ -153,15 +153,15 @@ class RecoParameters:
             if section == 'recon':
                 FILE.write("FileName                   " + self.fname + '\n')
                 FILE.write("Algorithm                  " + str(self.algorithm) +"\n")
-                FILE.write("Filter                     " + str(self.filterIndex) + "\n")
-                FILE.write("RemoveStripeMethod         " + str(self.stripeMethod) + "\n")
+                FILE.write("Filter                     " + str(self.filter_index) + "\n")
+                FILE.write("RemoveStripeMethod         " + str(self.stripe_method) + "\n")
                 FILE.write("Center                     " + str(self.center) + "\n")
                 FILE.write("Slice                      " + str(self.slice) + "\n")
-                FILE.write("nsino_x_chunk              " + str(self.nsino_x_chunk) + "\n")
-                FILE.write("SearchWidth                " + str(self.centerSearchWidth) + "\n")
+                FILE.write("NsinoPerChunk              " + str(self.nsino_x_chunk) + "\n")
+                FILE.write("SearchWidth                " + str(self.center_search_width) + "\n")
                 FILE.write("Energy                     " + str(self.energy) + "\n")
-                FILE.write("PropagationDistance        " + str(self.propagationDistance) + "\n")
-                FILE.write("pixel_size                 " + str(self.pixel_size) + "\n")
+                FILE.write("PropagationDistance        " + str(self.propagation_distance) + "\n")
+                FILE.write("PixelSize                  " + str(self.pixel_size) + "\n")
                 FILE.write("Alpha                      " + str(self.alpha) + "\n")
                 FILE.write("Queue                      " + str(self.queue) +"\n")
                 FILE.write("Nnodes                     " + str(self.nnodes) +"\n")
@@ -177,12 +177,12 @@ class RecoParameters:
         self.fields.selectedDatasetField.setText(self.fname)
         self.fields.algorithmChooser.setSelectedIndex(int(self.algorithm))
         self.fields.energyField.setText(self.energy)
-        self.fields.propagationDistanceField.setText(self.propagationDistance)
+        self.fields.propagation_distanceField.setText(self.propagation_distance)
         self.fields.pixel_sizeField.setText(str(self.pixel_size))
         self.fields.alphaField.setText(self.alpha)
-        self.fields.filterChooser.setSelectedIndex(self.filterIndex)
+        self.fields.filterChooser.setSelectedIndex(self.filter_index)
         self.fields.centerField.setText(str(self.center))
-        self.fields.stripeMethodChooser.setSelectedIndex(int(self.stripeMethod))
+        self.fields.stripe_methodChooser.setSelectedIndex(int(self.stripe_method))
         self.fields.sliceField.setText(str(self.slice))
-        self.fields.centerSearchField.setText(self.centerSearchWidth)
-        self.fields.nsino_x_chunkField.setText(self.nsino_x_chunk)
+        self.fields.centerSearchField.setText(self.center_search_width)
+        self.fields.nsino_x_chunkField.setText(str(self.nsino_x_chunk))

@@ -24,9 +24,9 @@ class Fields():
         self.centerField = GUI.createTextField(10, 200, 95, 110, 25, True,"1")
         
         # Remove Stripe Method
-        self.stripeMethodLabel = GUI.createLabel("Remove Stripe Method", 10, 35, 200, 210, 2, 12, True)
-        self.stripeMethodList=["none","fw","ti","sf","vo-all"]
-        self.stripeMethodChooser = GUI.createComboBox(self.stripeMethodList, 200, 125, 110, 25, 0, 10, True)
+        self.stripe_methodLabel = GUI.createLabel("Remove Stripe Method", 10, 35, 200, 210, 2, 12, True)
+        self.stripe_methodList=["none","fw","ti","sf","vo-all"]
+        self.stripe_methodChooser = GUI.createComboBox(self.stripe_methodList, 200, 125, 110, 25, 0, 10, True)
 
         # Paganin
         phase_box_x = 400
@@ -35,9 +35,9 @@ class Fields():
         self.energyField = GUI.createTextField(10, phase_box_x+135, phase_box_y-5, 45, 25, False,"0")
         self.energyUnitsLabel = GUI.createLabel("keV", phase_box_x+180, phase_box_y-9, 200, 30, 2, 12, False)
 
-        self.propagationDistanceLabel = GUI.createLabel("Propagation distance", phase_box_x, phase_box_y-75, 200, 210, 2, 12, False)
-        self.propagationDistanceField = GUI.createTextField(10, phase_box_x+135, phase_box_y+20, 45, 25, False,"0")
-        self.propagationDistanceUnitsLabel = GUI.createLabel("mm", phase_box_x+180, phase_box_y+16, 200, 30, 2, 12, False)
+        self.propagation_distanceLabel = GUI.createLabel("Propagation distance", phase_box_x, phase_box_y-75, 200, 210, 2, 12, False)
+        self.propagation_distanceField = GUI.createTextField(10, phase_box_x+135, phase_box_y+20, 45, 25, False,"0")
+        self.propagation_distanceUnitsLabel = GUI.createLabel("mm", phase_box_x+180, phase_box_y+16, 200, 30, 2, 12, False)
 
         self.pixel_sizeLabel = GUI.createLabel("Pixel size", phase_box_x+70, phase_box_y-50, 200, 210, 2, 12, False)
         self.pixel_sizeField = GUI.createTextField(10, phase_box_x+135, phase_box_y+45, 45, 25, False,"0")
@@ -59,7 +59,7 @@ class Fields():
         self.centerSearchUnitsLabel = GUI.createLabel("pixels", 460, 330, 200, 30, 2, 12, False)
 
         # nsino_x_chunk
-        self.nsino_x_chunkLabel = GUI.createLabel("nsino_x_chunk", 250, 380, 200, 30, 2, 12, False)
+        self.nsino_x_chunkLabel = GUI.createLabel("NsinoPerChunk", 250, 380, 200, 30, 2, 12, False)
         self.nsino_x_chunkField = GUI.createTextField(8, 360, 384, 100, 25, False,"1")
         
         # Queue selection
