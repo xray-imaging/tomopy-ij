@@ -81,11 +81,11 @@ class Fields():
         # Dataset panel
         self.datasetSelectionLabel = GUI.createLabel("Dataset", 10, 5, 200, 30, 2, 14, True)
         self.datasetSelectionButton = GUI.createButton("Select a dataset", 10, 50, 200, 40, 12, True)
-        self.selectedDatasetField = GUI.createTextField(20, 250, 57, 200, 25, True,"")
+        self.selectedDatasetField = GUI.createTextField(20, 210, 57, 350, 25, True,"")
 
-        self.datasetImageSizeLabel = GUI.createLabel("Image size (h, v):", 500, 55, 200, 30, 2, 14, False)
-        self.datasetHLabel = GUI.createLabel("", 625, 55, 200, 30, 2, 14, False)
-        self.datasetVLabel = GUI.createLabel("", 675, 55, 200, 30, 2, 14, False)
+        self.datasetImageSizeLabel = GUI.createLabel("Image size (h, v):", 565, 55, 200, 30, 2, 14, False)
+        self.datasetHLabel = GUI.createLabel("", 690, 55, 200, 30, 2, 14, False)
+        self.datasetVLabel = GUI.createLabel("", 740, 55, 200, 30, 2, 14, False)
                
         # Expert box
         self.expertBox = GUI.createCheckBox("Expert", 725, 5, 60, 15, 8, True)
