@@ -53,8 +53,13 @@ Modify tomopy_ui.py sys.path.append() to point to:
 Usage
 -----
 
+Locate the installation directory of the Fiji application (`FIJI_DIR`) and start Fiji from the same terminal where the tomopy conda env has been activated::
 
-Start Fiji then File/Open and select the tomopy_ui/tomopy_ui.py and hit run:
+    $ (`FIJI_DIR`)/Contents/MacOS(*)/ImageJ-macosx 
+    
+(*) folder name will match the Operative System of your installation.
+
+then File/Open and select the tomopy_ui/tomopy_ui.py and hit run:
 
 .. image:: docs/source/img/tomopy_ui_run.png
     :width: 25%
