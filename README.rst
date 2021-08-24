@@ -1,10 +1,10 @@
 =========
-tomopy-ui
+tomopy-ij
 =========
 
-tomopy-ui provides ImageJ support to `tomopy  <https://tomopy.readthedocs.io>`_.
+tomopy-ij provides ImageJ support to `tomopy  <https://tomopy.readthedocs.io>`_.
 
-tomopy-ui is derived from the `TOMCAT recomanager <https://github.com/xray-imaging/recomanager/tree/f308766a9c163333ceac93fa80996b77e50e98de>`_ 
+tomopy-ij is derived from the `TOMCAT recomanager <https://github.com/xray-imaging/recomanager/tree/f308766a9c163333ceac93fa80996b77e50e98de>`_ 
 developed by Federica Marone at the Swiss Light Source as described `here <https://doi.org/10.1186/s40679-016-0035-9>`_ and it is customized to provide similar functionality to the APS beamlines using `tomoScan <https://tomoscan.readthedocs.io/>`_.
 
 Installation
@@ -42,27 +42,32 @@ Finally
 ::
 
     $ cd your_working_directory
-    $ git clone https://github.com/xray-imaging/tomopy_ui.git
+    $ git clone https://github.com/xray-imaging/tomopy_ij.git
 
-Modify tomopy_ui.py sys.path.append() to point to:
+Modify tomopy_ij.py sys.path.append() to point to:
 
 ::
 
-    sys.path.append('your_working_directory/tomopy-ui/tomopy_ui')
+    sys.path.append('your_working_directory/tomopy-ij/tomopy_ij')
 
 Usage
 -----
 
+Locate the installation directory of the Fiji application (`FIJI_DIR`) and start Fiji from the same terminal where the tomopy conda env has been activated::
 
-Start Fiji then File/Open and select the tomopy_ui/tomopy_ui.py and hit run:
+    $ (`FIJI_DIR`)/Contents/MacOS(*)/ImageJ-macosx 
+    
+(*) folder name will match the Operative System of your installation.
 
-.. image:: docs/source/img/tomopy_ui_run.png
+then File/Open and select the tomopy_ij/tomopy_ij.py and hit run:
+
+.. image:: docs/source/img/tomopy_ij_run.png
     :width: 25%
     :align: center
 
-to obtain the main tomopy_ui control screen:
+to obtain the main tomopy_ij control screen:
 
-.. image:: docs/source/img/tomopy_ui.png
+.. image:: docs/source/img/tomopy_ij.png
     :width: 30%
     :align: center
 
@@ -75,11 +80,11 @@ Once you select a valid tomographic data set the projection data will be display
 
 Select Expert or Paganin to access additional parameters:
 
-.. image:: docs/source/img/tomopy_ui_expert.png
+.. image:: docs/source/img/tomopy_ij_expert.png
     :width: 25%
     :align: center
 
-.. image:: docs/source/img/tomopy_ui_paganin.png
+.. image:: docs/source/img/tomopy_ij_paganin.png
     :width: 25%
     :align: center
 

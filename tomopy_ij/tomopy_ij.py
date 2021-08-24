@@ -19,13 +19,14 @@ from hdf.object.h5 import H5File
 from hdf.object import Dataset
 
 # Linux/MacOS - replace username
-# sys.path.append(('/Users/username/conda/tomopy_ui/tomopy_ui'))
+# sys.path.append(('/Users/username/conda/tomopy-ij/tomopy_ij'))
 
 # Windows - replace username
-# sys.path.append('C:/Users/username/tomopy-ui/tomopy_ui')
+# sys.path.append('C:/Users/username/tomopy-ij/tomopy_ij')
 
-#sys.path.append('/Users/decarlo/conda/tomopy_ui/tomopy_ui')
-sys.path.append('/local/fast/conda/tomopy-ui/tomopy_ui')
+#sys.path.append('/Users/decarlo/conda/tomopy-ij/tomopy_ij')
+# sys.path.append('/local/fast/conda/tomopy-ij/tomopy_ij')
+sys.path.append('/Users/decarlo/conda/tomopy-ij/tomopy_ij')
 
 import panel
 import fields
