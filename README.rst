@@ -90,6 +90,6 @@ Select Expert or Paganin to access additional parameters:
 
 Press preview, try of full to reconstruct your data set:
 
-.. image:: docs/source/img/tomo_ui_recon.png
+.. image:: docs/source/img/tomo_ij_recon.png
     :width: 30%
     :align: center
